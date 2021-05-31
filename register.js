@@ -4,15 +4,12 @@ const ObjectID = require('mongodb').ObjectID;
 const bcrypt = require('bcrypt'); // paquete bcrypt para el cifrado
 require('dotenv').config(); //utilización del paquete dotenv para el uso de las variables de entorno.
 const app = express();
-
 let MongoClient = mongodb.MongoClient;
 let db;
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(mostrarIp); // este App.Use obliga a usar la función intermedia en cada llamada. (modo developer?)
-
-const cifrarExterno = require('./cifrar');
+const cifrarExterno = require('./public/cifrar');
 
 MongoClient.connect('mongodb+srv://vicdoblepe:vicdoblepe2@cards-game.skn15.mongodb.net/test', function (err, client) {
 	//utilizamos las variables de entorno para almacenar nuestra información sensible.
@@ -49,8 +46,8 @@ app.post('/login', function (req, res) {
 				if (data.length > 0) {
 					if (bcrypt.compareSync(password, data[0].password)) {
 						res.send(
-							{ mensaje: 'Logueado correctamente' }
-							// TODO: Modificar el estado de logged
+							{ mensaje: 'Logueado correctamente' }.UpdateOne({username: req.body.username}, {$set {logged: true}}),
+							// TODO: Modificar el estado de logged LA SINTAXIS ME LA HE INVENTADO. 
 						);
 					} else {
 						res.send({ mensaje: 'Contraseña incorrecta' });
