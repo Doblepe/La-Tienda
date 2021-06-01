@@ -6,7 +6,6 @@ function showPass() {
 		x.type = 'password';
 	}
 } //FIXME: Conseguir que cambien todos campos.
-const 
 function createAcc() {
 	fetch('/registro', {
 		method: 'POST',
@@ -15,6 +14,7 @@ function createAcc() {
 			email: document.getElementById('email').value,
 			userName: document.getElementById('username').value,
 			password: document.getElementById('password').value,
+			bag: [],
 		}),
 	})
 		.then((res) => res.json())
@@ -36,7 +36,8 @@ function loginAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			// Array.
-			if (datos.contenido >= 1) {
+			console.log(datos);
+			if (datos.contenido.length >= 1) {
 				(document.getElementById('feedback').innerHTML = '<h3>LOGIN CORRECTO</h3>'),
 					function storage() {
 						sessionStorage.setItem('userName', `${req.body.userName}`);

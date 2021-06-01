@@ -7,29 +7,38 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="register">
-        <h4>Crea tu cuenta</h4>
-    <p>Nombre:</p>
-    <input type="text"id="username"placeholder="Nombre de usuario">
-    <p>Email:</p>
-    <input type="text"id="email"placeholder="Nombre de usuario">
-    <p>Contraseña:</p>
-    <input type="password"id="password" class="pass-txt" placeholder="Escribe tu contraseña">
-    <input type="password"id="password2" class="pass-txt" placeholder="Vuelve a escribir tu contraseña">
-    <input type="checkbox" onclick="showPass()">Show Password
-    <button onclick="createAcc()">Crear cuenta</button>
-    </div>
-
-    <div id="login">
-    <h4> Inicia sessión</h4>
-    <p>Nombre:</p>
-    <input type="text"id="loginName"placeholder="Nombre de usuario">
-    <p>Contraseña:</p>
-    <input type="password"id="loginPassword" class="pass-txt" placeholder="contraseña">
-    <input type="checkbox" onclick="showPass()">Show Password
-    <button onclick="loginAcc()">Inicia sesión</button>
-    </div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Tu cuenta
+      </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <div id="register">
+            <h4>Crea tu cuenta</h4>
+        <p>Nombre:</p>
+        <input type="text"id="username"placeholder="Nombre de usuario">
+        <p>Email:</p>
+        <input type="text"id="email"placeholder="Nombre de usuario">
+        <p>Contraseña:</p>
+        <input type="password"id="password" class="pass-txt" placeholder="Escribe tu contraseña">
+        <input type="password"id="password2" class="pass-txt" placeholder="Vuelve a escribir tu contraseña">
+        <input type="checkbox" onclick="showPass()">Show Password
+        <button onclick="createAcc()">Crear cuenta</button>
+        </div>
+        <div id="login">
+        <h4> Inicia sessión</h4>
+        <p>Nombre:</p>
+        <input type="text"id="loginName"placeholder="Nombre de usuario">
+        <p>Contraseña:</p>
+        <input type="password"id="loginPassword" class="pass-txt" placeholder="contraseña">
+        <input type="checkbox" onclick="showPass()">Show Password
+        <button onclick="loginAcc()">Inicia sesión</button>
+        </div>
+   
 <div id="feedback"></div>
+  </div>
+
+    
 
 
     <script src="../public/index.js"></script>

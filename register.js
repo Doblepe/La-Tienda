@@ -15,7 +15,6 @@ MongoClient.connect(process.env.MONGO_URL, function (err, client) {
 	//utilizamos las variables de entorno para almacenar nuestra información sensible.
 	err ? console.log(err) : (db = client.db('store'));
 });
-
 app.post('/registro', cifrarExterno, function (req, res) {
 	//funión intermedia cifrarExtremo del módulo importado
 	let username = req.body.username;
@@ -53,11 +52,9 @@ app.post('/registro', cifrarExterno, function (req, res) {
 				} else {
 					if (data.length > 0) {
 						if (bcrypt.compareSync(password, data[0].password)) {
-							res.send({ mensaje: 'Logueado correctamente' }, function storage() {
-								sessionStorage.setItem('userName', `${req.body.userName}`);
-							});
+							res.send({ mensaje: 'Logueado correctamente', login: true });
 						} else {
-							res.send({ mensaje: 'Contraseña incorrecta' });
+							res.send({ mensaje: 'Contraseña incorrecta', login: false });
 						}
 					} else {
 						res.send({ mensaje: 'El usuario no existe' });

@@ -7,6 +7,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 let MongoClient = mongodb.MongoClient;
 MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
 	err ? console.log(err) : (db = client.db('store'));
@@ -14,8 +15,8 @@ MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTo
 
 app.post('/registro', cifrarExterno, function (req, res) {
 	//funión intermedia cifrarExtremo del módulo importado
-	let username = req.body.username;
-	let email = req.body.email;
+
+	console.log(req.body);
 
 	// TODO: Comrpobar si da ERROR por cualquier motivo
 	db.collection('users')
@@ -25,16 +26,13 @@ app.post('/registro', cifrarExterno, function (req, res) {
 				res.send({ error: true, contenido: err });
 			} else {
 				if (data.length >= 0) {
-					db.collection('users').insertOne(
-						{ username: username, password: usuario.password, email: email, bag: [] },
-						function (err, mensaje) {
-							if (err !== null) {
-								res.send({ mensaje: 'Error al registrar el usuario' });
-							} else {
-								res.send({ mensaje: 'Usuario registrado correctamente' });
-							}
+					db.collection('users').insertOne(req.body, function (err, data) {
+						if (err !== null) {
+							res.send({ mensaje: 'Error al registrar el usuario' });
+						} else {
+							res.send({ mensaje: 'Usuario registrado correctamente', contenido: data });
 						}
-					);
+					});
 				}
 			}
 		});
@@ -42,6 +40,7 @@ app.post('/registro', cifrarExterno, function (req, res) {
 app.post('/login', function (req, res) {
 	let username = req.body.username;
 	let password = req.body.password;
+	console.log(req.body);
 	db.collection('users')
 		.find({ username: username })
 		.toArray(function (err, data) {
@@ -50,9 +49,9 @@ app.post('/login', function (req, res) {
 			} else {
 				if (data.length >= 0) {
 					if (bcrypt.compareSync(password, data[0].password)) {
-						res.send({ mensaje: 'Logueado correctamente', login: true });
+						res.send({ mensaje: 'Logueado correctamente', contenido: data, login: true });
 					} else {
-						res.send({ mensaje: 'Contraseña incorrecta', login: false });
+						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, login: false });
 					}
 				} else {
 					res.send({ mensaje: 'El usuario no existe' });
