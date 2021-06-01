@@ -1,15 +1,69 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const app = express();
+const ObjectID = require('mongodb').ObjectID;
+const cifrarExterno = require('./cifrar');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
 require('dotenv').config();
-
 let MongoClient = mongodb.MongoClient;
-MongoClient.connect(process.env.MONGO_URL, function (err, client) {
-	//utilizamos las variables de entorno para almacenar nuestra información sensible.
+MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
 	err ? console.log(err) : (db = client.db('store'));
+});
+
+app.post('/registro', cifrarExterno, function (req, res) {
+	//funión intermedia cifrarExtremo del módulo importado
+	let username = req.body.username;
+	let email = req.body.email;
+
+	// TODO: Comrpobar si da ERROR por cualquier motivo
+	db.collection('users')
+		.find({ username: req.body.username })
+		.toArray(function (err, data) {
+			if (err) {
+				res.send({ error: true, contenido: err });
+			} else {
+				if (data.length >= 0) {
+					db.collection('users').insertOne(
+						{ username: username, password: usuario.password, email: email, bag: [] },
+						function (err, mensaje) {
+							if (err !== null) {
+								res.send({ mensaje: 'Error al registrar el usuario' });
+							} else {
+								res.send({ mensaje: 'Usuario registrado correctamente' });
+							}
+						}
+					);
+				}
+			}
+		});
+});
+app.post('/login', function (req, res) {
+	let username = req.body.username;
+	let password = req.body.password;
+	db.collection('users')
+		.find({ username: username })
+		.toArray(function (err, data) {
+			if (err !== null) {
+				res.send({ mensaje: 'Ha habido un error' });
+			} else {
+				if (data.length >= 0) {
+					if (bcrypt.compareSync(password, data[0].password)) {
+						res.send({ mensaje: 'Logueado correctamente', login: true });
+					} else {
+						res.send({ mensaje: 'Contraseña incorrecta', login: false });
+					}
+				} else {
+					res.send({ mensaje: 'El usuario no existe' });
+				}
+			}
+		});
+});
+app.post('/contact.html/info', function (req, res) {
+	db.collection('contact').insertOne(req.body, function (err, data) {
+		err ? res.send({ error: true, contenido: err }) : res.send({ error: false, contenido: data });
+	});
 });
 
 app.listen(process.env.PORT || 3000);
