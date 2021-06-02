@@ -59,7 +59,6 @@ app.post('/contact.html/info', function (req, res) {
 		err ? res.send({ error: true, contenido: err }) : res.send({ error: false, contenido: data });
 	});
 });
-
 app.get('/products', function (req, res) {
 	db.collection('products')
 		.find()
@@ -81,7 +80,6 @@ app.get('/products/femaleCollection', function (req, res) {
 			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
 		});
 });
-
 app.get('/products/kidCollection', function (req, res) {
 	db.collection('products')
 		.find({ collection: 'kid' })
@@ -90,4 +88,13 @@ app.get('/products/kidCollection', function (req, res) {
 		});
 });
 
+/* app.put('anyadir_carrito', function (req, res) {
+	db.collection('users').updateOne(
+		{ userName: document.getElementById('loggedUser').value }, // SERÍA MARAVILLOSO.
+		{ $set: { bag: bag.push(localProduct[i]) } },
+		function (error, datos) {
+			error ? res.send({ error: true, contenido: error }) : res.send({ error: false, contenido: datos });
+		}
+	);
+}); */
 app.listen(process.env.PORT || 3000);

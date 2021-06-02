@@ -1,11 +1,11 @@
-function showPass() {
+/* function showPass() {
 	var x = document.getElementsByClassName('pass-txt');
 	if (x.type === 'password') {
 		x.type = 'text';
 	} else {
 		x.type = 'password';
 	}
-} //FIXME: Conseguir que cambien todos campos.
+} */ //FIXME: Conseguir que cambien todos campos.
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -67,9 +67,22 @@ function sendInfo() {
 				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
 		});
 }
+function isLogged() {
+	if (sessionStorage.getItem('logged' === true)) {
+		document.getElementById('loggedUser').innerHTML = `<p>${userName}</p>`;
+	} else {
+		window.alert(
+			'¿Todavía no eres cliente nuestro? Regístrate ahora y consigue un 15% de descuento en todos nuestros productos '
+		);
+	}
+}
 function storage(userName) {
+	sessionStorage.setItem('logged', true);
 	sessionStorage.setItem('userName', `${userName}`);
-	document.getElementById('loggedUser').innerHTML = `<p>${userName}</p>`;
+	sessionStorage.setItem('cesta', []);
+
+	document.getElementsByClassName('loggedUser').innerHTML = `<p>${userName}</p>`;
+	//TODO: Guardar sesion true. If sesión es true. 	if (sessionStorage.getItem('logged'===true)) // TODO: está logeado?
 }
 
 localProduct = [];
@@ -97,6 +110,7 @@ function showMaleCollection() {
 		});
 }
 function showFemaleCollection() {
+	sessionStorage.setItem('collection', 'female');
 	fetch('/products/femaleCollection')
 		.then((res) => res.json())
 		.then(function (datos) {
@@ -108,6 +122,7 @@ function showFemaleCollection() {
 		});
 }
 function showKidCollection() {
+	sessionStorage.setItem('collection', 'kid');
 	fetch('/products/kidCollection')
 		.then((res) => res.json())
 		.then(function (datos) {
@@ -118,14 +133,19 @@ function showKidCollection() {
 			}
 		});
 }
-
-
-
-
-
+function addToBag() {
+	if (sessionStorage.getItem('logged' === true)) {
+		sessionStorage.setItem('cesta', `${cesta.push(localProduct[i])}`);
+	} else {
+		window.alert('Tienes que inicar sesión');
+	}
+}
 function imprimir(datos) {
 	localProduct = datos.contenido;
 	let parrafo = '';
+	let maleClothes = sessionStorage.getItem('collection' === 'male');
+	let femaleClothes = sessionStorage.getItem('collection' === 'female');
+	let kidClothes = sessionStorage.getItem('collection' === 'kid');
 	for (let i = 0; i < datos.contenido.length; i++) {
 		parrafo += `<div class="col">
 		<div class="card h-100">
@@ -133,7 +153,7 @@ function imprimir(datos) {
 		  <div class="card-body">
 			<h5 class="card-title">${datos.contenido[i].title}</h5>
 			<p class="card-text">${datos.contenido[i].price} EUR</p>
-			<button type="button" class="btn btn-primary" onclick="addBag(${i}")>Añadir al carrito</button>
+			<button type="button" class="btn btn-primary" onclick="addToBag(${i})">Añadir al carrito</button>
 		  </div>
 		  <div class="card-footer">
 			<small class="text-muted">15% de descuento</small>
@@ -141,6 +161,26 @@ function imprimir(datos) {
 		</div>
 	  </div>`;
 	}
-	document.getElementById('products').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	if (maleClothes) {
+		document.getElementById('maleClothes').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
 	${parrafo}</div>`;
+	} else if (femaleClothes) {
+		document.getElementById('femaleClothes').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	${parrafo}</div>`;
+	} else if (kidClothes) {
+		document.getElementById('kidClothes').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	${parrafo}</div>`;
+	} else {
+		document.getElementById('products').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	${parrafo}</div>`;
+	}
 }
+
+function feedback(mensaje) {
+	mensaje === 'interruptor'
+		? (document.getElementById('feedback').innerHTML = '')
+		: (document.getElementById('feedback').innerHTML = `<h3>${mensaje}</h3>`),
+		setTimeout(feedback('interruptor'), 4000);
+}
+
+isLogged();
