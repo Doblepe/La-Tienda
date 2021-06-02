@@ -23,7 +23,8 @@ function createAcc() {
 			.then((res) => res.json())
 			.then(function (datos) {
 				datos.contenido.insertedCount >= 1
-					? (document.getElementById('feedback').innerHTML = '<p style="color: green;"> Cuenta añadadida correctamente</p>')
+					? (document.getElementById('feedback').innerHTML =
+							'<p style="color: green;"> Cuenta añadadida correctamente</p>')
 					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
 			});
 	} else {
@@ -69,4 +70,77 @@ function sendInfo() {
 function storage(userName) {
 	sessionStorage.setItem('userName', `${userName}`);
 	document.getElementById('loggedUser').innerHTML = `<p>${userName}</p>`;
+}
+
+localProduct = [];
+showAllProducts();
+function showAllProducts() {
+	fetch('/products')
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.error) {
+				feedback('Ha habido un error');
+			} else {
+				imprimir(datos);
+			}
+		});
+}
+function showMaleCollection() {
+	fetch('/products/maleCollection')
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.error) {
+				feedback('Ha habido un error');
+			} else {
+				imprimir(datos);
+			}
+		});
+}
+function showFemaleCollection() {
+	fetch('/products/femaleCollection')
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.error) {
+				feedback('Ha habido un error');
+			} else {
+				imprimir(datos);
+			}
+		});
+}
+function showKidCollection() {
+	fetch('/products/kidCollection')
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.error) {
+				feedback('Ha habido un error');
+			} else {
+				imprimir(datos);
+			}
+		});
+}
+
+
+
+
+
+function imprimir(datos) {
+	localProduct = datos.contenido;
+	let parrafo = '';
+	for (let i = 0; i < datos.contenido.length; i++) {
+		parrafo += `<div class="col">
+		<div class="card h-100">
+		  <img src="${datos.contenido[i].url_img}" class="card-img-top" alt="${datos.contenido[i].title}">
+		  <div class="card-body">
+			<h5 class="card-title">${datos.contenido[i].title}</h5>
+			<p class="card-text">${datos.contenido[i].price} EUR</p>
+			<button type="button" class="btn btn-primary" onclick="addBag(${i}")>Añadir al carrito</button>
+		  </div>
+		  <div class="card-footer">
+			<small class="text-muted">15% de descuento</small>
+		  </div>
+		</div>
+	  </div>`;
+	}
+	document.getElementById('products').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	${parrafo}</div>`;
 }

@@ -60,4 +60,34 @@ app.post('/contact.html/info', function (req, res) {
 	});
 });
 
+app.get('/products', function (req, res) {
+	db.collection('products')
+		.find()
+		.toArray(function (err, data) {
+			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
+		});
+});
+app.get('/products/maleCollection', function (req, res) {
+	db.collection('products')
+		.find({ collection: 'male' })
+		.toArray(function (err, data) {
+			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
+		});
+});
+app.get('/products/femaleCollection', function (req, res) {
+	db.collection('products')
+		.find({ collection: 'female' })
+		.toArray(function (err, data) {
+			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
+		});
+});
+
+app.get('/products/kidCollection', function (req, res) {
+	db.collection('products')
+		.find({ collection: 'kid' })
+		.toArray(function (err, data) {
+			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
+		});
+});
+
 app.listen(process.env.PORT || 3000);
