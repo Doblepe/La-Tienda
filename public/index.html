@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Tienda</title>
    <link rel="stylesheet" href="./sass/custom.css">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="./index.html">
             <img src="./assets/zara -brand.jpg" alt="" width="40" height="34">
@@ -17,25 +15,29 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.html">La tienda</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="./products.html">Moda hombre</a></li>
-            <li><a class="dropdown-item" href="./products.html">Moda mujeres</a></li>
-            <li><a class="dropdown-item" href="./products.html">Moda infantil</a></li>
+            <li><a class="dropdown-item" onclick="showAllProducts()" href="./products.html" >Todos los Productos</a></li>
+            <li><a class="dropdown-item" onclick="showMaleCollection()" href="./products.html" >Moda hombre</a></li>
+            <li><a class="dropdown-item" onclick="showFemaleCollection()" href="./products.html">Moda mujeres</a></li>
+            <li><a class="dropdown-item" onclick="showKidCollection()" href="./products.html">Moda infantil</a></li>
           </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./contact.html">Contacto</a>
         </li>
       </ul>
-        <span class="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
+        <span class="loggedUser" id="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc" aria-expanded="false" aria-controls="collapseAcc">
           Tu cuenta
         </button>
       </div>
       </nav>
-      <!------------------------------------- AQUÍ ACABA LA NAV BAR---------------------------->
+       <!------------------------------------- AQUÍ ACABA LA NAV BAR---------------------------->
+</head>
+<body>
+    <main>
       <div class="collapse" id="collapseAcc"> 
         <div class="card card-body">
           <div id="register">
@@ -45,10 +47,12 @@
           <p>Email:</p>
           <input type="text"id="email"placeholder="Nombre de usuario">
           <p>Contraseña:</p>
-          <input type="password" id="pass1"  placeholder="Escribe tu contraseña">
-          <input type="password"id="pass2" placeholder="Vuelve a escribir tu contraseña">
-          <input type="checkbox" onclick="showPass()">Show Password
+          <form action="" method="post">
+          <input type="password" class="password" id="pass1"  placeholder="Escribe tu contraseña">
+          <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
+          <input type="checkbox" onclick="mostrarContrasena()">Show Password
           <button onclick="createAcc()">Crear cuenta</button>
+          </form>
           <div id="feedback"></div>
           </div>
           <div id="login">
@@ -56,8 +60,8 @@
           <p>Nombre:</p>
           <input type="text"id="loginName"placeholder="Nombre de usuario">
           <p>Contraseña:</p>
-          <input type="password"id="loginPassword" class="pass-txt" placeholder="contraseña">
-          <input type="checkbox" onclick="showPass()">Show Password
+          <input type="password"id="loginPassword" class="password" placeholder="contraseña">
+          <input type="checkbox" onclick="mostrarContrasena()">Show Password
           <button onclick="loginAcc()">Inicia sesión</button>
           </div>
       </div>
@@ -102,6 +106,11 @@
         </button>
       </div>
     </div>
+    </main>
+    <br>
+    <footer>
+
+    </footer>
     <script src="./index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

@@ -1,11 +1,15 @@
-function mostrarContrasena() {
-	var tipo = document.getElementsByClassName('password');
-	if (tipo.type == 'password') {
-		tipo.type = 'text';
+isLogged();
+showAllProducts();
+function isLogged() {
+	console.log(sessionStorage.getItem('logged'));
+	if (sessionStorage.getItem('logged') == 'true') {
+		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
 	} else {
-		tipo.type = 'password';
+		window.alert(
+			'¿Todavía no eres cliente nuestro? Regístrate ahora y consigue un 15% de descuento en todos nuestros productos '
+		);
 	}
-} //FIXME: Conseguir que cambien todos campos.
+}
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -50,40 +54,6 @@ function loginAcc() {
 				document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>';
 			}
 		});
-}
-function sendInfo() {
-	fetch('/contact.html/info', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			email: document.getElementById('info-email').value,
-			infomsg: document.getElementById('info-msg').value,
-		}),
-	})
-		.then((res) => res.json())
-		.then(function (datos) {
-			datos.contenido.insertedCount >= 1
-				? (document.getElementById('feedback').innerHTML =
-						'<h3 style="color: green">Tu mensaje se ha añadido correctamente, contactaremos contigo lo antes posible.</h3>')
-				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
-		});
-}
-function isLogged() {
-	console.log(sessionStorage.getItem('logged'));
-	if (sessionStorage.getItem('logged') == 'true') {
-		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
-	} else {
-		window.alert(
-			'¿Todavía no eres cliente nuestro? Regístrate ahora y consigue un 15% de descuento en todos nuestros productos '
-		);
-	}
-}
-function storage(userName) {
-	sessionStorage.setItem('logged', true);
-	sessionStorage.setItem('userName', `${userName}`);
-	sessionStorage.setItem('cesta', []);
-	document.getElementsByClassName('loggedUser').innerHTML = `<p>${userName}</p>`;
-	//TODO: Guardar sesion true. 	if (sessionStorage.getItem('logged'===true)) // TODO: está logeado?
 }
 localProduct = [];
 function showAllProducts() {
@@ -133,7 +103,7 @@ function showKidCollection() {
 		});
 }
 function addToBag() {
-	if (sessionStorage.getItem('logged' === true)) {
+	if (sessionStorage.getItem('logged' == 'true')) {
 		sessionStorage.setItem('cesta', `${cesta.push(localProduct[i])}`);
 	} else {
 		window.alert('Tienes que inicar sesión');
@@ -174,10 +144,3 @@ function imprimir(datos) {
 	${parrafo}</div>`;
 	}
 }
-function feedback(mensaje) {
-	mensaje === 'interruptor'
-		? (document.getElementById('feedback').innerHTML = '')
-		: (document.getElementById('feedback').innerHTML = `<h3>${mensaje}</h3>`),
-		setTimeout(feedback('interruptor'), 4000);
-}
-isLogged();
