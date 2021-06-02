@@ -15,10 +15,6 @@ MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTo
 
 app.post('/registro', cifrarExterno, function (req, res) {
 	//funión intermedia cifrarExtremo del módulo importado
-
-	console.log(req.body);
-
-	// TODO: Comrpobar si da ERROR por cualquier motivo
 	db.collection('users')
 		.find({ username: req.body.username })
 		.toArray(function (err, data) {
@@ -38,11 +34,10 @@ app.post('/registro', cifrarExterno, function (req, res) {
 		});
 });
 app.post('/login', function (req, res) {
-	let username = req.body.username;
+	let username = req.body.userName;
 	let password = req.body.password;
-	console.log(req.body);
 	db.collection('users')
-		.find({ username: username })
+		.find({ userName: username })
 		.toArray(function (err, data) {
 			if (err !== null) {
 				res.send({ mensaje: 'Ha habido un error' });

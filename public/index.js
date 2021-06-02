@@ -7,22 +7,28 @@ function showPass() {
 	}
 } //FIXME: Conseguir que cambien todos campos.
 function createAcc() {
-	fetch('/registro', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			email: document.getElementById('email').value,
-			userName: document.getElementById('username').value,
-			password: document.getElementById('password').value,
-			bag: [],
-		}),
-	})
-		.then((res) => res.json())
-		.then(function (datos) {
-			datos.contenido.insertedCount >= 1
-				? (document.getElementById('feedback').innerHTML = '<h3>Cuenta añadida correctamente</h3>')
-				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
-		});
+	let pass1 = document.getElementById('pass1').value;
+	let pass2 = document.getElementById('pass2').value;
+	if (pass1 === pass2) {
+		fetch('/registro', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				email: document.getElementById('email').value,
+				userName: document.getElementById('username').value,
+				password: document.getElementById('pass1').value,
+				bag: [],
+			}),
+		})
+			.then((res) => res.json())
+			.then(function (datos) {
+				datos.contenido.insertedCount >= 1
+					? (document.getElementById('feedback').innerHTML = '<p style="color: green;"> Cuenta añadadida correctamente</p>')
+					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+			});
+	} else {
+		document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
+	}
 }
 function loginAcc() {
 	fetch('/login', {
@@ -35,14 +41,9 @@ function loginAcc() {
 	})
 		.then((res) => res.json())
 		.then(function (datos) {
-			// Array.
-			console.log(datos);
 			if (datos.contenido.length >= 1) {
-				(document.getElementById('feedback').innerHTML = '<h3>LOGIN CORRECTO</h3>'),
-					function storage() {
-						sessionStorage.setItem('userName', `${req.body.userName}`);
-						document.getElementById('loggedUser').innerHTML = sessionStorage.getItem('userName');
-					};
+				document.getElementById('feedback').innerHTML = '<h3>LOGIN CORRECTO</h3>';
+				storage(datos.contenido[0].userName);
 			} else {
 				document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>';
 			}
@@ -64,4 +65,8 @@ function sendInfo() {
 						'<h3 style="color: green">Tu mensaje se ha añadido correctamente, contactaremos contigo lo antes posible.</h3>')
 				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
 		});
+}
+function storage(userName) {
+	sessionStorage.setItem('userName', `${userName}`);
+	document.getElementById('loggedUser').innerHTML = `<p>${userName}</p>`;
 }
