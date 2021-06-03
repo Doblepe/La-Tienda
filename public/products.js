@@ -1,3 +1,4 @@
+let localBag = [];
 isLogged();
 showAllProducts();
 localProduct = [];
@@ -10,19 +11,26 @@ function isLogged() {
 		);
 	}
 }
-function addToBag() {
+
+function addToBag(i) {
 	sessionStorage.getItem('logged');
 	if (sessionStorage.getItem('logged') == 'true') {
-		for (let i = 0; i < localProduct.length; i++) {
-			console.log(localProduct[i]._id);
-			sessionStorage.setItem('cesta', `[${localProduct[i]._id}]`);
-		}
+		localBag.push(localProduct[i]._id);
+		sessionStorage.setItem('cesta', JSON.stringify(localBag));
 	} else {
 		window.alert('Tienes que inicar sesión');
 	}
-} //FIXME: Añade varios objetos.
+}
 function showBag() {
-	sessionStorage.getItem('cesta');
+	localBag = JSON.parse(localStorage.getItem('cesta'));
+	for (let i = 0; i < localBag.length; i++) {
+		for (let j = 0; j < localProduct.length; j++) {
+			if (localProduct[j]._id == localBag[i]) {
+				parrafo += ``;
+			}
+		}
+	}
+	document.getElementById('').innerHTML = parrafo;
 } //TODO: Hacer una bolsa donde se meten los objetos a comprar
 
 function createAcc() {
@@ -71,6 +79,23 @@ function loginAcc() {
 		});
 }
 
+function showSelectedProducts() {
+	let selected = document.getElementById('lista').value;
+	switch (selected) {
+		case 'all':
+			showAllProducts();
+			break;
+		case 'men':
+			showMaleCollection();
+			break;
+		case 'women':
+			showFemaleCollection();
+			break;
+		case 'kid':
+			showKidCollection();
+			break;
+	}
+}
 function showAllProducts() {
 	fetch('/products')
 		.then((res) => res.json())
