@@ -1,7 +1,7 @@
 isLogged();
 showAllProducts();
+localProduct = [];
 function isLogged() {
-	console.log(sessionStorage.getItem('logged'));
 	if (sessionStorage.getItem('logged') == 'true') {
 		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
 	} else {
@@ -10,6 +10,21 @@ function isLogged() {
 		);
 	}
 }
+function addToBag() {
+	sessionStorage.getItem('logged');
+	if (sessionStorage.getItem('logged') == 'true') {
+		for (let i = 0; i < localProduct.length; i++) {
+			console.log(localProduct[i]._id);
+			sessionStorage.setItem('cesta', `[${localProduct[i]._id}]`);
+		}
+	} else {
+		window.alert('Tienes que inicar sesión');
+	}
+} //FIXME: Añade varios objetos.
+function showBag() {
+	sessionStorage.getItem('cesta');
+} //TODO: Hacer una bolsa donde se meten los objetos a comprar
+
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -55,7 +70,7 @@ function loginAcc() {
 			}
 		});
 }
-localProduct = [];
+
 function showAllProducts() {
 	fetch('/products')
 		.then((res) => res.json())
@@ -102,13 +117,7 @@ function showKidCollection() {
 			}
 		});
 }
-function addToBag() {
-	if (sessionStorage.getItem('logged' == 'true')) {
-		sessionStorage.setItem('cesta', `${cesta.push(localProduct[i])}`);
-	} else {
-		window.alert('Tienes que inicar sesión');
-	}
-}
+
 function imprimir(datos) {
 	localProduct = datos.contenido;
 	let parrafo = '';

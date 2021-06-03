@@ -5,36 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La tienda</title>
-    <link rel="stylesheet" href="./sass/custom.css"></head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="./index.html">
-            <img src="./assets/zara -brand.jpg" alt="" width="40" height="34">
-          </a>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.html">La tienda</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="./products.html" onclick="showAllProducts()">Todos los Productos</a></li>
-            <li><a class="dropdown-item" href="./products.html" onclick="showMaleCollection()">Moda hombre</a></li>
-            <li><a class="dropdown-item" href="./products.html"onclick="showFemaleCollection()">Moda mujeres</a></li>
-            <li><a class="dropdown-item" href="./products.html"onclick="showKidCollection()">Moda infantil</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./contact.html">Contacto</a>
-        </li>
-      </ul>
-        <span id="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc" aria-expanded="false" aria-controls="collapseAcc">
-          Tu cuenta
+    <link rel="stylesheet" href="./sass/custom.css">
+<body class="body">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-      </div>
-      </nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <a class="navbar-brand" href="./index.html">
+              <img src="./assets/zara -brand.jpg" alt="" width="40" height="34">
+            </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">La tienda</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="./products.html">Todos los Productos</a></li>
+              <li><a class="dropdown-item" href="./products.html" >Moda hombre</a></li>
+              <li><a class="dropdown-item" href="./products.html">Moda mujeres</a></li>
+              <li><a class="dropdown-item" href="./products.html">Moda infantil</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./contact.html">Contacto</a>
+          </li>
+        </ul>
+          <span id="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc" aria-expanded="false" aria-controls="collapseAcc">
+            Tu cuenta
+          </button>
+        </div>
+        </div>
+        </nav>
+  </header>
       <!------------------------------------- AQUÍ ACABA LA NAV BAR---------------------------->
       <div class="mb-3">
         <h4>Envíamos un mensaje</h4>
@@ -45,6 +52,34 @@
         <label for="exampleFormControlTextarea1" class="form-label">Tu mensaje</label>
         <textarea class="form-control" rows="3"id="info-msg"></textarea>
         <button type="button" class="btn btn-primary btn-lg" onclick="sendInfo()">Enviar mensaje</button>
+      </div>
+      <div class="collapse" id="collapseAcc"> 
+        <div class="card card-body">
+          <div id="register">
+              <h4>Crea tu cuenta</h4>
+          <p>Nombre:</p>
+          <input type="text"id="username"placeholder="Nombre de usuario">
+          <p>Email:</p>
+          <input type="text"id="email"placeholder="Nombre de usuario">
+          <p>Contraseña:</p>
+          <form action="" method="post">
+          <input type="password" class="password" id="pass1"  placeholder="Escribe tu contraseña">
+          <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
+          <input type="checkbox" onclick="mostrarContrasena()">Show Password
+          <button onclick="createAcc()">Crear cuenta</button>
+          </form>
+          <div id="feedback"></div>
+          </div>
+          <div id="login">
+          <h4> Inicia sessión</h4>
+          <p>Nombre:</p>
+          <input type="text"id="loginName"placeholder="Nombre de usuario">
+          <p>Contraseña:</p>
+          <input type="password"id="loginPassword" class="password" placeholder="contraseña">
+          <input type="checkbox" onclick="mostrarContrasena()">Show Password
+          <button onclick="loginAcc()">Inicia sesión</button>
+          </div>
+      </div>
       </div>
 
 <div id="feedback"></div>
