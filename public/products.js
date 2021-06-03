@@ -1,7 +1,56 @@
 let localBag = [];
 isLogged();
-showAllProducts();
-localProduct = [];
+// showAllProducts();
+let localProduct = [];
+function addToBag(i) {
+	sessionStorage.getItem('logged');
+	if (sessionStorage.getItem('logged') == 'true') {
+		localBag.push(localProduct[i]);
+		sessionStorage.setItem('cesta', JSON.stringify(localBag));
+	} else {
+		window.alert('Tienes que inicar sesión');
+	}
+}
+function showBag() {
+	localBag = JSON.parse(sessionStorage.getItem('cesta'));
+	console.log(localBag);
+	let parrafo = '';
+	for (let i = 0; i < localBag.length; i++) {
+		parrafo += `
+		<div class="col">
+		<div class="card h-100">
+		  <img src="${localBag[i].url_img}" alt="${localBag[i].title}">
+		  <div class="card-body">
+			<h5 class="card-title">${localBag[i].title}</h5>
+			<p class="card-text">El producto cuesta ${localBag[i].price} EUR.</p>
+		  </div>
+		</div>
+		</div> `;
+	}
+	document.getElementById('bag').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
+	${parrafo}</div>`;
+}
+/* function saveBag(){fetch('/guardar', {
+	method: 'PUT',
+	headers: { 'Content-Type': 'application/json' },
+	body: JSON.stringify({
+		email: document.getElementById('email').value,
+		userName: document.getElementById('username').value,
+		password: document.getElementById('pass1').value,
+		bag: [],
+	}),
+})
+	.then((res) => res.json())
+	.then(function (datos) {
+		datos.contenido.insertedCount >= 1
+			? (document.getElementById('feedback').innerHTML =
+					'<p style="color: green;"> Cuenta añadadida correctamente</p>')
+			: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+	});
+} else {
+document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
+} */
+
 function isLogged() {
 	if (sessionStorage.getItem('logged') == 'true') {
 		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
@@ -11,28 +60,6 @@ function isLogged() {
 		);
 	}
 }
-
-function addToBag(i) {
-	sessionStorage.getItem('logged');
-	if (sessionStorage.getItem('logged') == 'true') {
-		localBag.push(localProduct[i]._id);
-		sessionStorage.setItem('cesta', JSON.stringify(localBag));
-	} else {
-		window.alert('Tienes que inicar sesión');
-	}
-}
-function showBag() {
-	localBag = JSON.parse(localStorage.getItem('cesta'));
-	for (let i = 0; i < localBag.length; i++) {
-		for (let j = 0; j < localProduct.length; j++) {
-			if (localProduct[j]._id == localBag[i]) {
-				parrafo += ``;
-			}
-		}
-	}
-	document.getElementById('').innerHTML = parrafo;
-} //TODO: Hacer una bolsa donde se meten los objetos a comprar
-
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -142,7 +169,6 @@ function showKidCollection() {
 			}
 		});
 }
-
 function imprimir(datos) {
 	localProduct = datos.contenido;
 	let parrafo = '';

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Tienda</title>
     <link rel="stylesheet" href="./sass/custom.css"></head>
+    <link rel="stylesheet" href="./styles.css">
+    
 <body>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,7 +28,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="./products.html">Todos los Productos</a></li>
               <li><a class="dropdown-item" href="./products.html" >Moda hombre</a></li>
-              <li><a class="dropdown-item" href="./products.html">Moda mujeres</a></li>
+              <li><a class="dropdown-item" href="./products.html">Moda mujer</a></li>
               <li><a class="dropdown-item" href="./products.html">Moda infantil</a></li>
             </ul>
           </li>
@@ -90,41 +92,22 @@
                    <option value="men" >Moda hombre</option>
                    <option value= "women"onchange="showFemaleCollection()">Moda mujeres</option>
                    <option value= "kid" onchange="showKidCollection()">Moda infantil</option>
-               </select>
-        <br>
-               <div class="collapse" id="collapseAcc"> 
-                 <div class="card card-body">
-                   <div id="register">
-                       <h4>Crea tu cuenta</h4>
-                   <p>Nombre:</p>
-                   <input type="text"id="username"placeholder="Nombre de usuario">
-                   <p>Email:</p>
-                   <input type="text"id="email"placeholder="Nombre de usuario">
-                   <p>Contraseña:</p>
-                   <form action="" method="post">
-                   <input type="password" class="password" id="pass1"  placeholder="Escribe tu contraseña">
-                   <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
-                   <input type="checkbox" onclick="mostrarContrasena()">Show Password
-                   <button onclick="createAcc()">Crear cuenta</button>
-                   </form>
-                   <div id="feedback"></div>
-                   </div>
-                   <div id="login">
-                   <h4> Inicia sessión</h4>
-                   <p>Nombre:</p>
-                   <input type="text"id="loginName"placeholder="Nombre de usuario">
-                   <p>Contraseña:</p>
-                   <input type="password"id="loginPassword" class="password" placeholder="contraseña">
-                   <input type="checkbox" onclick="mostrarContrasena()">Show Password
-                   <button onclick="loginAcc()">Inicia sesión</button>
-                   </div>
-               </div>
-               </div>
+               </select>  
         <div id="products"></div>
     <div id="maleClothes"></div>
     <div id="femaleClothes"></div>
     <div id="kidClothes"></div>
+    
+      <div class="bag" >
+        <button class="btn btn-primary" onclick="showBag()">Mostrar cesta</button>
+        <br>
+        <div id="bag">
+         
+        </div>
+      </div> 
       </div>
+
+      
 
 <div id="feedback"></div>
     <script src="./products.js"></script>
