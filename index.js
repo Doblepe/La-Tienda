@@ -73,4 +73,35 @@ app.post('/contact.html/info', function (req, res) {
 		}
 	);
 }); */
+app.delete('/borrar', function (req, res) {
+	let username = req.body.userName;
+
+	app.locals.db
+		.collection('users')
+		.find({ userName: username })
+		.toArray(function (err, data) {
+			if (err !== null) {
+				res.send({ mensaje: 'Ha habido un error' });
+			} else {
+				console.log(data);
+				if (data.length > 0) {
+					if (bcrypt.compareSync(req.body.password, data[0].password)) {
+						let db = app.locals.db;
+						db.collection('users').deleteOne({ userName: username }, function (err, data) {
+							if (err !== null) {
+								res.send({ mensaje: 'Error al borrar al usuario' });
+							} else {
+								res.send({ mensaje: 'Usuario borrado correctamente', contenido: data });
+							}
+						});
+					} else {
+						res.send({ mensaje: 'Contraseña incorrecta' });
+					}
+				} else {
+					res.send({ mensaje: 'El usuario no existe' });
+				}
+			}
+		});
+});
+
 app.listen(process.env.PORT || 3000);

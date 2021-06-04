@@ -52,6 +52,12 @@ function loginAcc() {
 			}
 		});
 }
+function storage(userName) {
+	sessionStorage.setItem('logged', true);
+	sessionStorage.setItem('userName', `${userName}`);
+	sessionStorage.setItem('cesta', []);
+	document.getElementsByClassName('loggedUser').innerHTML = `<p>${userName}</p>`;
+}
 function sendInfo() {
 	fetch('/contact.html/info', {
 		method: 'POST',
@@ -79,10 +85,23 @@ function isLogged() {
 		);
 	}
 }
-function storage(userName) {
-	sessionStorage.setItem('logged', true);
-	sessionStorage.setItem('userName', `${userName}`);
-	sessionStorage.setItem('cesta', []);
-	document.getElementsByClassName('loggedUser').innerHTML = `<p>${userName}</p>`;
-	//TODO: Guardar sesion true. 	if (sessionStorage.getItem('logged'===true)) // TODO: está logeado?
+function deleteAcc() {
+	fetch('/borrar', {
+		method: 'DELETE',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			userName: document.getElementById('delAccName').value,
+			password: document.getElementById('delAccPassword').value,
+		}),
+	})
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.contenido.length >= 1) {
+				document.getElementById('feedback').innerHTML =
+					'<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>';
+				console.log('cuenta borrada');
+			} else {
+				document.getElementById('feedback').innerHTML = '<h3 style="color: red;">Se ha producido un error</h3>';
+			}
+		});
 }

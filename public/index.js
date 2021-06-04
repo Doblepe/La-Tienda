@@ -23,12 +23,17 @@ function createAcc() {
 			.then((res) => res.json())
 			.then(function (datos) {
 				datos.contenido.insertedCount >= 1
-					? (document.getElementById('feedback').innerHTML =
-							'<p style="color: green;"> Cuenta añadadida correctamente</p>')
-					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+					? (document.getElementById('feedback').innerHTML = feedback(
+							'<p style="color: green;"> Cuenta añadadida correctamente</p>'
+					  ))
+					: (document.getElementById('feedback').innerHTML = feedback(
+							'<h3 style="color: red;">Se ha producido un error</h3>'
+					  ));
 			});
 	} else {
-		document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
+		document.getElementById('feedback').innerHTML = feedback(
+			`<p style="color: red;"> Las contraseñas no coinciden</p>`
+		);
 	}
 }
 function loginAcc() {
@@ -43,29 +48,12 @@ function loginAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			if (datos.contenido.length >= 1) {
-				document.getElementById('feedback').innerHTML = '<h3>LOGIN CORRECTO</h3>';
+				document.getElementById('feedback').innerHTML = '<h3 style="color: green";>LOGIN CORRECTO</h3>';
 				storage(datos.contenido[0].userName);
 				isLogged();
 			} else {
-				document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>';
+				document.getElementById('feedback').innerHTML = '<h3 style="color: red";>Se ha producido un error</h3>';
 			}
-		});
-}
-function sendInfo() {
-	fetch('/contact.html/info', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			email: document.getElementById('info-email').value,
-			infomsg: document.getElementById('info-msg').value,
-		}),
-	})
-		.then((res) => res.json())
-		.then(function (datos) {
-			datos.contenido.insertedCount >= 1
-				? (document.getElementById('feedback').innerHTML =
-						'<h3 style="color: green">Tu mensaje se ha añadido correctamente, contactaremos contigo lo antes posible.</h3>')
-				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
 		});
 }
 function isLogged() {
@@ -83,61 +71,6 @@ function storage(userName) {
 	sessionStorage.setItem('userName', `${userName}`);
 	sessionStorage.setItem('cesta', []);
 	document.getElementsByClassName('loggedUser').innerHTML = `<p>${userName}</p>`;
-	//TODO: Guardar sesion true. 	if (sessionStorage.getItem('logged'===true)) // TODO: está logeado?
-}
-localProduct = [];
-function showAllProducts() {
-	fetch('/products')
-		.then((res) => res.json())
-		.then(function (datos) {
-			if (datos.error) {
-				feedback('Ha habido un error');
-			} else {
-				imprimir(datos);
-			}
-		});
-}
-function showMaleCollection() {
-	fetch('/products/maleCollection')
-		.then((res) => res.json())
-		.then(function (datos) {
-			if (datos.error) {
-				feedback('Ha habido un error');
-			} else {
-				imprimir(datos);
-			}
-		});
-}
-function showFemaleCollection() {
-	sessionStorage.setItem('collection', 'female');
-	fetch('/products/femaleCollection')
-		.then((res) => res.json())
-		.then(function (datos) {
-			if (datos.error) {
-				feedback('Ha habido un error');
-			} else {
-				imprimir(datos);
-			}
-		});
-}
-function showKidCollection() {
-	sessionStorage.setItem('collection', 'kid');
-	fetch('/products/kidCollection')
-		.then((res) => res.json())
-		.then(function (datos) {
-			if (datos.error) {
-				feedback('Ha habido un error');
-			} else {
-				imprimir(datos);
-			}
-		});
-}
-function addToBag() {
-	if (sessionStorage.getItem('logged' === true)) {
-		sessionStorage.setItem('cesta', `${cesta.push(localProduct[i])}`);
-	} else {
-		window.alert('Tienes que inicar sesión');
-	}
 }
 function imprimir(datos) {
 	localProduct = datos.contenido;
@@ -174,10 +107,11 @@ function imprimir(datos) {
 	${parrafo}</div>`;
 	}
 }
-function feedback(mensaje) {
+
+/* function feedback(mensaje) {
 	mensaje === 'interruptor'
 		? (document.getElementById('feedback').innerHTML = '')
 		: (document.getElementById('feedback').innerHTML = `<h3>${mensaje}</h3>`),
 		setTimeout(feedback('interruptor'), 4000);
-}
+} */
 isLogged();
