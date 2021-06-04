@@ -2,9 +2,10 @@
 	margin: 20px;
 	padding: 20px;
 	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
 }
 footer {
 	margin: auto;
 	padding: auto;
-	background-color: #f8f9fa;
+	background-color: hsl(210, 17%, 98%);
 }

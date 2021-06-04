@@ -1,6 +1,6 @@
 let localBag = [];
 isLogged();
-// showAllProducts();
+showAllProducts();
 let localProduct = [];
 function addToBag(i) {
 	sessionStorage.getItem('logged');
@@ -15,6 +15,7 @@ function showBag() {
 	localBag = JSON.parse(sessionStorage.getItem('cesta'));
 	console.log(localBag);
 	let parrafo = '';
+	var arrId = [];
 	for (let i = 0; i < localBag.length; i++) {
 		parrafo += `
 		<div class="col">
@@ -26,31 +27,29 @@ function showBag() {
 		  </div>
 		</div>
 		</div> `;
+		arrId.push(localBag[i]._id);
 	}
 	document.getElementById('bag').innerHTML = `<div class="row row-cols-1 row-cols-md-3 g-4">
 	${parrafo}</div>`;
+	console.log(arrId);
+	return arrId && localBag;
 }
-/* function saveBag(){fetch('/guardar', {
-	method: 'PUT',
-	headers: { 'Content-Type': 'application/json' },
-	body: JSON.stringify({
-		email: document.getElementById('email').value,
-		userName: document.getElementById('username').value,
-		password: document.getElementById('pass1').value,
-		bag: [],
-	}),
-})
-	.then((res) => res.json())
-	.then(function (datos) {
-		datos.contenido.insertedCount >= 1
-			? (document.getElementById('feedback').innerHTML =
-					'<p style="color: green;"> Cuenta añadadida correctamente</p>')
-			: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
-	});
-} else {
-document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
-} */
-
+function saveBag() {
+	{
+		fetch('/guardar', {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(arrId),
+		})
+			.then((res) => res.json())
+			.then(function (datos) {
+				datos.contenido.insertedCount >= 1
+					? (document.getElementById('feedback').innerHTML =
+							'<p style="color: green;"> Cuenta añadadida correctamente</p>')
+					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+			});
+	}
+}
 function isLogged() {
 	if (sessionStorage.getItem('logged') == 'true') {
 		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
@@ -105,7 +104,6 @@ function loginAcc() {
 			}
 		});
 }
-
 function showSelectedProducts() {
 	let selected = document.getElementById('lista').value;
 	switch (selected) {
