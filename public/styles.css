@@ -4,8 +4,83 @@
 	background-color: #f8f9fa;
 	border: solid 1px #a5c5e4;
 }
+.deleteAcc {
+	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
+	padding: 1em;
+	margin-bottom: 2px;
+}
+.comu {
+	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
+	padding: 1em;
+	margin-bottom: 2px;
+}
+.editAcc {
+	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
+	padding: 1em;
+	margin-bottom: 2px;
+}
+#register {
+	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
+	padding: 1em;
+	margin-bottom: 2px;
+}
+#login {
+	background-color: #f8f9fa;
+	border: solid 1px #a5c5e4;
+	padding: 1em;
+}
 footer {
 	margin: auto;
 	padding: auto;
 	background-color: hsl(210, 17%, 98%);
+}
+/* footer {
+	margin-top: 3em;
+	padding: 2em;
+	background-color: lightgray;
+	color: black;
+} */
+footer a {
+	text-decoration: none;
+	color: #e2494b;
+}
+#footercontent {
+	display: flex;
+	justify-content: space-around;
+	margin-right: 25px;
+}
+#bottom {
+	margin-top: 1em;
+}
+.boton {
+	display: inline-block;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #fbfdff;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	margin-right: 2em;
+	border: solid 1px #77ace0;
+	justify-content: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-color: #95b7da;
+	padding: 2px 5px;
+	font-size: 1rem;
+	border-radius: 0.25rem;
+	-webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		-webkit-box-shadow 0.15s ease-in-out;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		-webkit-box-shadow 0.15s ease-in-out;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }

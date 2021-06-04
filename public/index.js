@@ -1,11 +1,11 @@
-function mostrarContrasena() {
+/* function mostrarContrasena() {
 	var tipo = document.getElementsByClassName('password');
 	if (tipo.type == 'password') {
 		tipo.type = 'text';
 	} else {
 		tipo.type = 'password';
 	}
-} //FIXME: Conseguir que cambien todos campos.
+}  */ //FIXME: Conseguir que cambien todos campos.
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -23,17 +23,12 @@ function createAcc() {
 			.then((res) => res.json())
 			.then(function (datos) {
 				datos.contenido.insertedCount >= 1
-					? (document.getElementById('feedback').innerHTML = feedback(
-							'<p style="color: green;"> Cuenta añadadida correctamente</p>'
-					  ))
-					: (document.getElementById('feedback').innerHTML = feedback(
-							'<h3 style="color: red;">Se ha producido un error</h3>'
-					  ));
+					? (document.getElementById('feedback').innerHTML =
+							'<p style="color: green;"> Cuenta añadadida correctamente</p>')
+					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
 			});
 	} else {
-		document.getElementById('feedback').innerHTML = feedback(
-			`<p style="color: red;"> Las contraseñas no coinciden</p>`
-		);
+		document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
 	}
 }
 function loginAcc() {
@@ -48,16 +43,16 @@ function loginAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			if (datos.contenido.length >= 1) {
-				document.getElementById('feedback').innerHTML = '<h3 style="color: green";>LOGIN CORRECTO</h3>';
+				//document.getElementById('feedback').innerHTML = `<h3 style="color: green";>LOGIN CORRECTO</h3>`;
+				feedback(`<h3 style="color: green";>LOGIN CORRECTO</h3>`);
 				storage(datos.contenido[0].userName);
 				isLogged();
 			} else {
-				document.getElementById('feedback').innerHTML = '<h3 style="color: red";>Se ha producido un error</h3>';
+				feedback(`<h3 style="color: red";>Se ha producido un error</h3>`);
 			}
 		});
 }
 function isLogged() {
-	console.log(sessionStorage.getItem('logged'));
 	if (sessionStorage.getItem('logged') == 'true') {
 		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
 	} else {
@@ -108,10 +103,16 @@ function imprimir(datos) {
 	}
 }
 
-/* function feedback(mensaje) {
-	mensaje === 'interruptor'
+function feedback(mensaje) {
+	console.log(mensaje);
+	if (mensaje !== 'interruptor') {
+		document.getElementById('feedback').innerHTML = mensaje;
+	} else {
+		document.getElementById('feedback').innerHTML = '';
+	}
+	/* 	mensaje === 'interruptor'
 		? (document.getElementById('feedback').innerHTML = '')
-		: (document.getElementById('feedback').innerHTML = `<h3>${mensaje}</h3>`),
-		setTimeout(feedback('interruptor'), 4000);
-} */
+		: (document.getElementById('feedback').innerHTML = mensaje),
+		setTimeout(feedback('interruptor'), 4000); */
+}
 isLogged();

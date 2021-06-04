@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La tienda</title>
     <link rel="stylesheet" href="./sass/custom.css">
+    <link rel="stylesheet" href="styles.css">
 <body class="body">
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,7 +35,7 @@
             <a class="nav-link" href="./contact.html">Contacto</a>
           </li>
         </ul>
-          <span id="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
+          <span class="boton" id="loggedUser"></span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
          <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Tu cuenta
@@ -45,7 +46,8 @@
   </header>
       <!------------------------------------- AQUÍ ACABA LA NAV BAR---------------------------->
      <div class= "container">
-      <div class="mb-3">
+       <div class="comu">
+      <div class="mb-3" >
         <h4>Envíamos un mensaje</h4>
         <label for="exampleFormControlInput1" class="form-label">Email address</label>
         <input type="email" class="form-control" placeholder="name@example.com" id="info-email">
@@ -55,6 +57,7 @@
         <textarea class="form-control" rows="3"id="info-msg"></textarea>
         <button type="button" class="btn btn-primary btn-lg" onclick="sendInfo()">Enviar mensaje</button>
       </div>
+    </div>
 <!--------------------------------------------- AQUÍ EMPIEZA EL MODAL  -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,7 +79,7 @@
       <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
       <input type="checkbox" onclick="mostrarContrasena()">Show Password
       <button onclick="createAcc()" class="btn btn-secondary">Crear cuenta</button>
-      <br>
+    </div>
       <div id="login">
         <h4> Inicia sessión</h4>
         <p>Nombre:</p>
@@ -86,8 +89,8 @@
         <input type="checkbox" onclick="mostrarContrasena()">Show Password
         <button class="btn btn-secondary"onclick="loginAcc()">Inicia sesión</button>
         </div>
-        <div id="feedback"></div>
-      </div>
+       <div id="feedback"></div>
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
@@ -95,7 +98,7 @@
     </div>
   </div>
 </div>
-<div>
+<div class= "deleteAcc">
   <h4> Borrar cuenta</h4>
   <p>Si lo qu quieres es borrar la cuenta escribe tu nombre y contraseña</p>
   <p>Nombre:</p>
@@ -104,6 +107,17 @@
   <input type="password"id="delAccPassword" class="password" placeholder="Contraseña">
   <button class="btn btn-primary"onclick="deleteAcc()">Borrar</button>
   </div>
+  <div class="editAcc">
+    <h4> Editar nombre</h4>
+    <p>Si no te gusta tu nombre, puedes cambiarlo sin necesidad de ir al registro.  Escribe tu nombre y contraseña y pulsa editar.</p>
+    <p>Nombre:</p>
+    <input type="text"id="edAccName"placeholder="Nombre de usuario">
+    <p>Contraseña:</p>
+    <input type="password"id="edAccPassword"  placeholder="Contraseña">
+    <p>Nuevo nombre:</p>
+    <input type="text"id="newUserName"placeholder="Escribe el nombre que deseas">
+    <button class="btn btn-primary"onclick="editAcc()">Editar</button>
+    </div>
 </div>
 </div>
 <div id="feedback"></div>
@@ -123,7 +137,7 @@
   </div>
 
   <hr/>
-  <div>
+  <div id="bottom">
     <p>Copyright C 2013 - All Rights Reserved - Domain name</p>
   </div>
   </footer>

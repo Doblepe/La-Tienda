@@ -105,3 +105,25 @@ function deleteAcc() {
 			}
 		});
 }
+
+function editAcc() {
+	fetch('/editar', {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			userName: document.getElementById('edAccName').value,
+			password: document.getElementById('edAccPassword').value,
+			newUserName: document.getElementById('newUserName').value,
+		}),
+	})
+		.then((res) => res.json())
+		.then(function (datos) {
+			if (datos.contenido.length >= 1) {
+				document.getElementById('feedback').innerHTML =
+					'<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>';
+				console.log('cuenta borrada');
+			} else {
+				document.getElementById('feedback').innerHTML = '<h3 style="color: red;">Se ha producido un error</h3>';
+			}
+		});
+}

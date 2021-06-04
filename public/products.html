@@ -36,7 +36,7 @@
             <a class="nav-link" href="./contact.html">Contacto</a>
           </li>
         </ul>
-          <span id="loggedUser"> </span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
+          <span class="boton" id="loggedUser"> </span> <!----Esta etiqueta debería recoger el usuario que se ha loggeado-->
           <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Tu cuenta
           </button> 
@@ -45,44 +45,44 @@
         </nav>
   </header>
   <!--- Modal ---->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Tu cuenta</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div id="register">
-          <h4>Crea tu cuenta</h4>
-      <p>Nombre:</p>
-      <input type="text"id="username"placeholder="Nombre de usuario">
-      <p>Email:</p>
-      <input type="text"id="email"placeholder="Nombre de usuario">
-      <p>Contraseña:</p>
-      <input type="password" class="password" id="pass1"  placeholder="Escribe tu contraseña">
-      <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
-      <input type="checkbox" onclick="mostrarContrasena()">Show Password
-      <button onclick="createAcc()" class="btn btn-secondary">Crear cuenta</button>
-      <br>
-      <div id="login">
-        <h4> Inicia sessión</h4>
-        <p>Nombre:</p>
-        <input type="text"id="loginName"placeholder="Nombre de usuario">
-        <p>Contraseña:</p>
-        <input type="password"id="loginPassword" class="password" placeholder="contraseña">
-        <input type="checkbox" onclick="mostrarContrasena()">Show Password
-        <button class="btn btn-secondary"onclick="loginAcc()">Inicia sesión</button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Tu cuenta</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div id="feedback"></div>
+        <div class="modal-body">
+          <div id="register">
+            <h4>Crea tu cuenta</h4>
+        <p>Nombre:</p>
+        <input type="text"id="username"placeholder="Nombre de usuario">
+        <p>Email:</p>
+        <input type="text"id="email"placeholder="Nombre de usuario">
+        <p>Contraseña:</p>
+        <input type="password" class="password" id="pass1"  placeholder="Escribe tu contraseña">
+        <input type="password" class="password" id="pass2" placeholder="Vuelve a escribir tu contraseña">
+        <input type="checkbox" onclick="mostrarContrasena()">Show Password
+        <button onclick="createAcc()" class="btn btn-secondary">Crear cuenta</button>
       </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+        <div id="login">
+          <h4> Inicia sessión</h4>
+          <p>Nombre:</p>
+          <input type="text"id="loginName"placeholder="Nombre de usuario">
+          <p>Contraseña:</p>
+          <input type="password"id="loginPassword" class="password" placeholder="contraseña">
+          <input type="checkbox" onclick="mostrarContrasena()">Show Password
+          <button class="btn btn-secondary"onclick="loginAcc()">Inicia sesión</button>
+          </div>
+         <div id="feedback"></div>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
       <!------------------------------------- AQUÍ ACABA LA NAV BAR---------------------------->
       <div class="container">
@@ -128,7 +128,7 @@
   </div>
 
   <hr/>
-  <div>
+  <div id="bottom">
     <p>Copyright C 2013 - All Rights Reserved - Domain name</p>
   </div>
   </footer>
