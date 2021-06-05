@@ -155,20 +155,5 @@ app.put('/editar', function (req, res) {
 			}
 		});
 });
-/* app.put("/editar-nombre", function (req, res) {
-	db.collection("users").updateOne(
-	  { userName: req.body.username },
-	  {
-		$set: {
-		  userName: req.body.newUserName,
-		},
-	  },
-	  function (err, data) {
-		err
-		  ? res.send({ error: true, contenido: err })
-		  : res.send({ error: false, contenido: data });
-	  }
-	);
-  });
- */
+
 app.listen(process.env.PORT || 3000);

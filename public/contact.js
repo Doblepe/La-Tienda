@@ -1,12 +1,12 @@
 isLogged();
-function mostrarContrasena() {
+/* function mostrarContrasena() {
 	var tipo = document.getElementsByClassName('password');
 	if (tipo.type == 'password') {
 		tipo.type = 'text';
 	} else {
 		tipo.type = 'password';
 	}
-} //FIXME: Conseguir que cambien todos campos.
+}  */ //FIXME: Conseguir que cambien todos campos.
 function createAcc() {
 	let pass1 = document.getElementById('pass1').value;
 	let pass2 = document.getElementById('pass2').value;
@@ -24,12 +24,11 @@ function createAcc() {
 			.then((res) => res.json())
 			.then(function (datos) {
 				datos.contenido.insertedCount >= 1
-					? (document.getElementById('feedback').innerHTML =
-							'<p style="color: green;"> Cuenta añadadida correctamente</p>')
-					: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+					? feedback('<p style="color: green;"> Cuenta añadadida correctamente</p>')
+					: feedback('<h3>Se ha producido un error</h3>');
 			});
 	} else {
-		document.getElementById('feedback').innerHTML = `<p style="color: red;"> Las contraseñas no coinciden</p>`;
+		feedback(`<p style="color: red;"> Las contraseñas no coinciden</p>`);
 	}
 }
 function loginAcc() {
@@ -44,11 +43,11 @@ function loginAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			if (datos.contenido.length >= 1) {
-				document.getElementById('feedback').innerHTML = '<h3>LOGIN CORRECTO</h3>';
+				feedback(`<h3 style="color: green";>LOGIN CORRECTO</h3>`);
 				storage(datos.contenido[0].userName);
 				isLogged();
 			} else {
-				document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>';
+				feedback(`<h3 style="color: red";>Se ha producido un error</h3>`);
 			}
 		});
 }
@@ -97,15 +96,12 @@ function deleteAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			if (datos.contenido.length >= 1) {
-				document.getElementById('feedback').innerHTML =
-					'<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>';
-				console.log('cuenta borrada');
+				feedback('<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>');
 			} else {
-				document.getElementById('feedback').innerHTML = '<h3 style="color: red;">Se ha producido un error</h3>';
+				feedback('<h3 style="color: red;">Se ha producido un error</h3>');
 			}
 		});
 }
-
 function editAcc() {
 	fetch('/editar', {
 		method: 'PUT',
@@ -119,11 +115,15 @@ function editAcc() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			if (datos.contenido.length >= 1) {
-				document.getElementById('feedback').innerHTML =
-					'<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>';
-				console.log('cuenta borrada');
+				feedback('<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>');
 			} else {
-				document.getElementById('feedback').innerHTML = '<h3 style="color: red;">Se ha producido un error</h3>';
+				feedback('<h3 style="color: red;">Se ha producido un error</h3>');
 			}
 		});
+}
+function feedback(mensaje) {
+	(document.getElementById('feedback').innerHTML = mensaje),
+		setTimeout(() => {
+			document.getElementById('feedback').innerHTML = '';
+		}, 4000);
 }
