@@ -1,6 +1,6 @@
 isLogged();
 /* function mostrarContrasena() {
-	var tipo = document.getElementsByClassName('password');
+	var tipo = document.getElementsById('password');
 	if (tipo.type == 'password') {
 		tipo.type = 'text';
 	} else {
@@ -69,13 +69,13 @@ function sendInfo() {
 		.then((res) => res.json())
 		.then(function (datos) {
 			datos.contenido.insertedCount >= 1
-				? (document.getElementById('feedback').innerHTML =
-						'<h3 style="color: green">Tu mensaje se ha añadido correctamente, contactaremos contigo lo antes posible.</h3>')
-				: (document.getElementById('feedback').innerHTML = '<h3>Se ha producido un error</h3>');
+				? feedback(
+						'<h3 style="color: green">Tu mensaje se ha añadido correctamente, contactaremos contigo lo antes posible.</h3>'
+				  )
+				: feedback('<h3>Se ha producido un error</h3>');
 		});
 }
 function isLogged() {
-	console.log(sessionStorage.getItem('logged'));
 	if (sessionStorage.getItem('logged') == 'true') {
 		document.getElementById('loggedUser').innerHTML = `<p>${sessionStorage.getItem('userName')}</p>`;
 	} else {
@@ -95,10 +95,10 @@ function deleteAcc() {
 	})
 		.then((res) => res.json())
 		.then(function (datos) {
-			if (datos.contenido.length >= 1) {
-				feedback('<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>');
-			} else {
+			if (datos.contenido.length > 1) {
 				feedback('<h3 style="color: red;">Se ha producido un error</h3>');
+			} else {
+				feedback('<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>');
 			}
 		});
 }
@@ -114,10 +114,10 @@ function editAcc() {
 	})
 		.then((res) => res.json())
 		.then(function (datos) {
-			if (datos.contenido.length >= 1) {
-				feedback('<h3 style="color: green;">La cuenta ha sido borrada correctamente</h3>');
+			if (datos.contenido.length > 1) {
+				feedback('<h3 style="color: red;">Se ha producido un error al editar la cuenta</h3>');
 			} else {
-				feedback('<h3 style="color: red;">Se ha producido un error</h3>');
+				feedback('<h3 style="color: green;">La cuenta ha sido editada correctamente </h3>');
 			}
 		});
 }

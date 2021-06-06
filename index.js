@@ -46,7 +46,7 @@ app.post('/login', function (req, res) {
 		.toArray(function (err, data) {
 			console.log(data.length);
 			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error' });
+				res.send({ mensaje: 'Ha habido un error', contenido: data });
 			} else {
 				if (data.length > 0) {
 					if (bcrypt.compareSync(password, data[0].password)) {
@@ -65,32 +65,6 @@ app.post('/contact.html/info', function (req, res) {
 		err ? res.send({ error: true, contenido: err }) : res.send({ error: false, contenido: data });
 	});
 });
-
-/* app.put('anyadir_carrito', function (req, res) {
-	db.collection('users').updateOne(
-		{ userName: document.getElementById('loggedUser').value }, // SERÍA MARAVILLOSO.
-		{ $set: { bag: bag.push(localProduct[i]) } },
-		function (error, datos) {
-			error ? res.send({ error: true, contenido: error }) : res.send({ error: false, contenido: datos });
-		}
-	);
-}); */
-/* app.put("/editar-nombre", function (req, res) {
-	db.collection("users").updateOne(
-	  { userName: req.body.username },
-	  {
-		$set: {
-		  userName: req.body.newUserName,
-		},
-	  },
-	  function (err, data) {
-		err
-		  ? res.send({ error: true, contenido: err })
-		  : res.send({ error: false, contenido: data });
-	  }
-	);
-  });
- */
 app.delete('/borrar', function (req, res) {
 	let username = req.body.userName;
 	app.locals.db
@@ -106,7 +80,7 @@ app.delete('/borrar', function (req, res) {
 						let db = app.locals.db;
 						db.collection('users').deleteOne({ userName: username }, function (err, data) {
 							if (err !== null) {
-								res.send({ mensaje: 'Error al borrar al usuario' });
+								res.send({ mensaje: 'Error al borrar al usuario', contenido: data });
 							} else {
 								res.send({ mensaje: 'Usuario borrado correctamente', contenido: data });
 							}
@@ -128,7 +102,7 @@ app.put('/editar', function (req, res) {
 		.find({ userName: username })
 		.toArray(function (err, data) {
 			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error' });
+				res.send({ mensaje: 'Ha habido un error', contenido: data });
 			} else {
 				console.log(data);
 				if (data.length > 0) {
@@ -140,17 +114,17 @@ app.put('/editar', function (req, res) {
 								{ $set: { userName: newUserName } },
 								function (err, data) {
 									if (err !== null) {
-										res.send({ mensaje: 'Error al modificar al usuario' });
+										res.send({ mensaje: 'Error al modificar al usuario', contenido: data });
 									} else {
 										res.send({ mensaje: 'Usuario modificado correctamente', contenido: data });
 									}
 								}
 							);
 					} else {
-						res.send({ mensaje: 'Contraseña incorrecta' });
+						res.send({ mensaje: 'Contraseña incorrecta', contenido: data });
 					}
 				} else {
-					res.send({ mensaje: 'El usuario no existe' });
+					res.send({ mensaje: 'El usuario no existe', contenido: data });
 				}
 			}
 		});
