@@ -7,7 +7,7 @@ function NavBarComp(){
     <Navbar bg="light" expand="lg">
     <Navbar.Brand href="/">
       <img
-        src=""
+        src="adfadsfasd"
         width="30"
         height="30"
         className="d-inline-block align-top"
