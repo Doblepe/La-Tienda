@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/products', function (req, res) {
 	let db = req.app.locals.db;
 	db.collection('products')
 		.find()
 		.toArray(function (err, data) {
-			err ? res.send({ err: true, contenido: data }) : res.send({ err: false, contenido: data });
+			err ? res.send({ err: true, contenido: data, mensaje: "Problemas al conectar el servidor" }) : res.send({ err: false, contenido: data, mensaje: "Conectado correctamente" });
 		});
 });
 router.get('/maleCollection', function (req, res) {

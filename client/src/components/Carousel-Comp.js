@@ -1,10 +1,10 @@
 import { Carousel } from "react-bootstrap"
 function CarouselComp(){
-    return <Carousel>
+    return (<Carousel fade>
     <Carousel.Item>
       <img
         className="d-block w-100"
-        src="../../"
+        src="holder.js/800x400?text=First slide&bg=373940"
         alt="First slide"
       />
       <Carousel.Caption>
@@ -36,6 +36,6 @@ function CarouselComp(){
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </Carousel.Caption>
     </Carousel.Item>
-  </Carousel>
+  </Carousel>)
 }
 export default CarouselComp

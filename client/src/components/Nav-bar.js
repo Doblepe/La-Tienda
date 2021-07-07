@@ -1,26 +1,32 @@
-import { Navbar, Nav, Form, Button,FormControl,NavDropdown  } from 'react-bootstrap';
-import {useState} from 'react-dom';
+import { Navbar, Nav, Button,NavDropdown  } from 'react-bootstrap';
 
 function NavBarComp(){
- const [imput, setImput] = useState('')
-    return<Navbar bg="light" expand="lg">
-    <Navbar.Brand href="#home">Inicio</Navbar.Brand>
+  
+    return(
+      
+    <Navbar bg="light" expand="lg">
+    <Navbar.Brand href="/">
+      <img
+        src=""
+        width="30"
+        height="30"
+        className="d-inline-block align-top"
+        alt=""
+      /></Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <Nav.Link href="#home">Política de envíos</Nav.Link>
+        <Nav.Link href="/">Inicio</Nav.Link>
         <Nav.Link href="#link">Contacto</Nav.Link>
         <NavDropdown title="Productos" id="basic-nav-dropdown">
-          <NavDropdown.Item href="#action/3.1">Moda femenina</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.2">Moda Masculina</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.3">Moda infantil</NavDropdown.Item>
+          <NavDropdown.Item href="/products">Todos los productos</NavDropdown.Item>
+          <NavDropdown.Item href="/products/femaleCollection">Moda femenina</NavDropdown.Item>
+          <NavDropdown.Item href="/products/maleCollection">Moda Masculina</NavDropdown.Item>
+          <NavDropdown.Item href="/products/kidCollection">Moda infantil</NavDropdown.Item>
         </NavDropdown>
       </Nav>
-      <Form inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={(e)=>{setImput(e.target.value)}}/>
-        <Button variant="outline-success">Buscar</Button>
-      </Form>
+        <Button variant="outline-success" /* onClick={history.push('/login')} */>Sesión</Button>
     </Navbar.Collapse>
-  </Navbar>
+  </Navbar>)
 }
 export default NavBarComp

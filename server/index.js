@@ -1,8 +1,11 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const app = express();
+const port = process.env.PORT || 3001
+const cors = require('cors')
 // const router = express.Router();//
 let products = require('./routes/routes');
+app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
@@ -15,10 +18,12 @@ MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTo
 });
 
 app.use('/products', products);
+
+ // ----------------------- REGISTRO -------------------------------
 app.post('/registro', cryptPass, function (req, res) {
 	app.locals.db
 		.collection('users')
-		.find({ username: req.body.username })
+		.find({ email: req.body.email })
 		.toArray(function (err, data) {
 			if (err) {
 				res.send({ error: true, contenido: err });
@@ -26,9 +31,9 @@ app.post('/registro', cryptPass, function (req, res) {
 				if (data.length > 0) {
 					app.locals.db.collection('users').insertOne(req.body, function (err, data) {
 						if (err !== null) {
-							res.send({ mensaje: 'Error al registrar el usuario' });
+							res.send({ mensaje: 'Error al registrar el usuario', error: true });
 						} else {
-							res.send({ mensaje: 'Usuario registrado correctamente', contenido: data });
+							res.send({ mensaje: 'Usuario registrado correctamente', contenido: data, error: false });
 						}
 					});
 				}
@@ -36,25 +41,25 @@ app.post('/registro', cryptPass, function (req, res) {
 		});
 });
 
+ // ----------------------- LOGIN -------------------------------
+
 app.post('/login', function (req, res) {
-	let username = req.body.userName;
-	let password = req.body.password;
 	app.locals.db
 		.collection('users')
-		.find({ userName: username })
+		.find({ email: req.body.email })
 		.toArray(function (err, data) {
 			console.log(data.length);
 			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error', contenido: data });
+				res.send({ mensaje: 'Ha habido un error', contenido: data, error:true });
 			} else {
 				if (data.length > 0) {
-					if (bcrypt.compareSync(password, data[0].password)) {
-						res.send({ mensaje: 'Logueado correctamente', contenido: data, login: true });
+					if (bcrypt.compareSync(req.body.password, data[0].password)) {
+						res.send({ mensaje: 'Logueado correctamente', contenido: data, error:false, login: true });
 					} else {
-						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, login: false });
+						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, error: true, login: false });
 					}
 				} else {
-					res.send({ mensaje: 'El usuario no existe' });
+					res.send({ mensaje: 'El usuario no existe', error: true,login: false });
 				}
 			}
 		});
@@ -137,10 +142,10 @@ function cryptPass(req, res, next) {
 	req.body = usuario;
 	next();
   }
-app.listen(process.env.PORT || 3000, function (err) {
+app.listen(port, function (err) {
 	err
 	  ? console.log("🔴 Servidor fallido")
-	  : console.log("🟢 Servidor a la escucha en el puerto:" + process.env.MONGO_URL);
+	  : console.log("🟢 Servidor a la escucha en el puerto:" + port);
   });
 
 
