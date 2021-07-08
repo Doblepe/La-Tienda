@@ -1,24 +1,53 @@
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import logo from '../assets/IMG_8178-min.jpg'
 function FooterComp(){
+
     return(
-        <Container ClassName="footer" fluid>
+        <Container className="footer" fluid>
             <Row>
-                <Col>
+            <Button variant="secondary" size="lg" block onClick={()=>{
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera   
+             }}>
+            Volver Arriba
+            </Button>
+            </Row>
+            <Row className="footer-content">
+            <Col xs={6} md={4}>
                 <h5>Contenido</h5>
                 <ul>
                     <li><Link to ="/">Inicio</Link></li>
                     <li><Link to ="/contact">Contacto</Link></li>
                     <li><Link to ="/products">productos</Link></li>
                 </ul></Col>
-
-                <Col><h1>Hola Mundo</h1></Col>
-                <Col><h1>Hola Mundo</h1></Col>
+            <Col xs={6} md={4}>
+                <h5>Condicinoes de pago</h5>
+                <ul>
+                    <li><Link to ="/">Inicio</Link></li>
+                    <li><Link to ="/contact">Contacto</Link></li>
+                    <li><Link to ="/products">productos</Link></li>
+                </ul></Col>
+            <Col xs={6} md={4} >
+                <h5>Política de envíos</h5>
+                <ul>
+                    <li><Link to ="/">Inicio</Link></li>
+                    <li><Link to ="/contact">Contacto</Link></li>
+                    <li><Link to ="/products">productos</Link></li>
+                </ul></Col>           
             </Row>
             <hr/>
             <Row className="justify-content-md-center">
-            <img src=""/>
-            <p>Política de ajsklfjasldk</p>
+            <img
+                src={logo}
+                width="45"
+                height="45"
+                className="d-inline-block align-top"
+                alt="Víctor's Shop"
+             />
+             </Row>
+             <Row className="justify-content-md-center">
+            <p>Política de copyright © 2021 - Todos los derechos de esta página web quedan reservados</p>
             </Row>
         </Container>
     )

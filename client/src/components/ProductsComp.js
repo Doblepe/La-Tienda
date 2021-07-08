@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react'
 import { Alert, Card, Button, Container, Row, Col } from 'react-bootstrap';
-// TODO: Añadir parámetro mensaje al servidor en Rutas
 
 function ProductsComp(){
     const [feedback, setFeedback] = useState({ empty: true });
@@ -38,33 +37,25 @@ function ProductsComp(){
     </Card>
     </Col>
     </Row>)
-}); const maleClothes = allProducts.filter(maleCollection);
+});
 setShowProducts(prevShowProducts)},
 [allProducts]) 
+
+
 console.log(allProducts)
-const maleClothes = allProducts.filter(maleCollection);
-const femaleClothes = allProducts.filter(femaleCollection);
-const kidClothes= allProducts.filter(kidCollection);
 
-console.log(maleClothes)
+/* const maleClothes = allProducts.filter((clothe)=>clothe.collection==="male");
+const femaleClothes = allProducts.filter((clothe)=>clothe.collection==="female");
+const kidClothes= allProducts.filter((clothe)=>clothe.collection ==="kid");  */
 
-function maleCollection(arr){
-  if (allProducts.collection === "male")
-  return true
-}
-function femaleCollection(arr){
-  if (allProducts.collection === "female")
-  return true
-}
-function kidCollection(arr){
-  if (allProducts.collection === "kid")
-  return true
-}
+
+
+
 
     return <>
     <Container>
       <Row>
-      <Col xs={6} md={4}>
+      <Col>
       {showProducts}
     </Col>
       </Row>

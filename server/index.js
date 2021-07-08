@@ -8,7 +8,6 @@ let products = require('./routes/routes');
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static('public'));
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
@@ -20,7 +19,10 @@ MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTo
 app.use('/products', products);
 
  // ----------------------- REGISTRO -------------------------------
+
 app.post('/registro', cryptPass, function (req, res) {
+	console.log(req.body)
+
 	app.locals.db
 		.collection('users')
 		.find({ email: req.body.email })
@@ -28,7 +30,7 @@ app.post('/registro', cryptPass, function (req, res) {
 			if (err) {
 				res.send({ error: true, contenido: err });
 			} else {
-				if (data.length > 0) {
+				if (data.length === 0) {
 					app.locals.db.collection('users').insertOne(req.body, function (err, data) {
 						if (err !== null) {
 							res.send({ mensaje: 'Error al registrar el usuario', error: true });
@@ -36,7 +38,7 @@ app.post('/registro', cryptPass, function (req, res) {
 							res.send({ mensaje: 'Usuario registrado correctamente', contenido: data, error: false });
 						}
 					});
-				}
+				}else(res.send({mensaje: "El usuario ya existe", error: true}))
 			}
 		});
 });

@@ -1,4 +1,5 @@
 import { Navbar, Nav, Button,NavDropdown  } from 'react-bootstrap';
+import logo from '../assets/IMG_8178-min.jpg'
 
 function NavBarComp(){
   
@@ -7,9 +8,9 @@ function NavBarComp(){
     <Navbar bg="light" expand="lg">
     <Navbar.Brand href="/">
       <img
-        src="adfadsfasd"
-        width="30"
-        height="30"
+        src={logo}
+        width="45"
+        height="45"
         className="d-inline-block align-top"
         alt=""
       /></Navbar.Brand>

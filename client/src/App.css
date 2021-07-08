@@ -1,5 +1,11 @@
 .footer{
   background-color: #282c34;
-  color: white
+  color: hsl(0, 0%, 100%);
+  list-style-type: none;
 }
-
+.footer hr{
+  background-color: white
+}
+.footer-content{
+  padding-top: 25px;
+}

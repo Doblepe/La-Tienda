@@ -2,7 +2,7 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 
-function LoginComp (){
+function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
   const [feedback, setFeedback] = useState({ empty: true });
@@ -24,13 +24,7 @@ function LoginComp (){
         setTimeout(()=>{setFeedback({empty:true})}, 5000)
     });},[login])
 
-  function showPass() {
-    var tipo = document.getElementById('password');
-    if (tipo.type === 'password') {
-      tipo.type = 'text';
-    } else {
-      tipo.type = 'password';
-    }}
+
 return (<Container>
     <Row className="justify-content-md-center">
     <Col xs lg="6">
@@ -54,7 +48,7 @@ return (<Container>
     <Form.Control type="password" placeholder="Contraseña" id="password" onChange={(e)=>{setPassword(e.target.value)}}/>
   </Form.Group>
   <Form.Group>
-    <Form.Check type="checkbox" label="Check me out" onClick={showPass} />
+    <Form.Check type="checkbox" label="Check me out" onClick={props.showPass} />
   </Form.Group>
   <Button variant="primary" type="submit" onClick={()=>{setLogin({log:true})}}>
     Entrar
