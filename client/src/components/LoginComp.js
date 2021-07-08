@@ -1,29 +1,55 @@
 import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
   const [feedback, setFeedback] = useState({ empty: true });
-  const [login, setLogin] = useState({log:false})
+ /*  const [login, setLogin] = useState({log:false}) */
 
+function loadingAcc(){
+  fetch('http://localhost:3001/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: email,
+    password: password
+  }),
+})
+  .then((res) => res.json())
+  .then(function (datos) {
+    setFeedback(datos);
+    setTimeout(()=>{setFeedback({empty:true})}, 5000)
+});}
+     
+  function simulateNetworkRequest() {
+    return new Promise((resolve) => setTimeout(resolve, 2000));
+  }
   
-    useEffect(() =>{
-      fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      }),
-    })
-      .then((res) => res.json())
-      .then(function (datos) {
-        setFeedback(datos);
-        setTimeout(()=>{setFeedback({empty:true})}, 5000)
-    });},[login])
-
+  function LoadingButton() {
+    const [isLoading, setLoading] = useState(false);
+  
+    useEffect(() => {
+      if (isLoading) {
+        simulateNetworkRequest().then(() => {
+          setLoading(false); loadingAcc();
+        });
+      }
+    }, [isLoading]);
+  
+    const handleClick = () => setLoading(true);
+  
+    return (
+      <Button
+        variant="primary"
+        disabled={isLoading}
+        onClick={!isLoading ? handleClick : null}
+      >
+        {isLoading ? 'Conectando' : 'Inicio de sesión'}
+      </Button>
+    );
+  }
 
 return (<Container>
     <Row className="justify-content-md-center">
@@ -50,9 +76,11 @@ return (<Container>
   <Form.Group>
     <Form.Check type="checkbox" label="Check me out" onClick={props.showPass} />
   </Form.Group>
-  <Button variant="primary" type="submit" onClick={()=>{setLogin({log:true})}}>
+
+ {/*  <Button variant="primary" type="submit" onClick={()=>{setLogin({log:true})}}>
     Entrar
-  </Button>
+  </Button> */}
+  <LoadingButton />
   {feedback.empty ? (
               <h1> </h1>
             ) : (

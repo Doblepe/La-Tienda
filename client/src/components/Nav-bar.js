@@ -1,8 +1,26 @@
-import { Navbar, Nav, Button,NavDropdown  } from 'react-bootstrap';
+import { Navbar, Nav, Button,NavDropdown, Popover, OverlayTrigger } from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
+import {Link} from 'react-router-dom'
 
 function NavBarComp(){
   
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Inicia tu sesión</Popover.Title>
+      <Popover.Content>
+        <p>Si eres cliente nuestro entonces inicia sesión <Link to="/login">Click aquí</Link></p>
+        <hr/>
+        <p>Si no eres cliente nuestro crea tu cuenta <Link to="/registro">Click aquí</Link></p>
+      </Popover.Content>
+    </Popover>
+  );
+  
+  const MyAcc = () => (
+    <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+      <Button variant="success">Mi cuenta</Button>
+    </OverlayTrigger>
+  );
+
     return(
       
     <Navbar bg="light" expand="lg">
@@ -26,7 +44,7 @@ function NavBarComp(){
           <NavDropdown.Item href="/products/kidCollection">Moda infantil</NavDropdown.Item>
         </NavDropdown>
       </Nav>
-        <Button variant="outline-success" /* onClick={history.push('/login')} */>Sesión</Button>
+       <MyAcc />
     </Navbar.Collapse>
   </Navbar>)
 }

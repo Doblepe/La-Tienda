@@ -26,6 +26,34 @@ function register(){
       setFeedback(datos);
       setTimeout(()=>{setFeedback({empty:true})}, 5000)
   });}
+ /// --------------------- LOADING BOTÓN --------------
+  function simulateNetworkRequest() {
+    return new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+  
+  function LoadingButton() {
+    const [isLoading, setLoading] = useState(false);
+  
+    useEffect(() => {
+      if (isLoading) {
+        simulateNetworkRequest().then(() => {
+          setLoading(false); register();
+        });
+      }
+    }, [isLoading]);
+  
+    const handleClick = () => setLoading(true);
+  
+    return (
+      <Button
+        variant="primary"
+        disabled={isLoading}
+        onClick={!isLoading ? handleClick : null}
+      >
+        {isLoading ? 'Creando…' : 'Crear cuenta'}
+      </Button>
+    );
+  }
 
 return (<Container>
     <Row className="justify-content-md-center">
@@ -55,9 +83,7 @@ return (<Container>
   <Form.Group>
     <Form.Check type="checkbox" label="Check me out" onClick={props.showPass}/>
   </Form.Group>
-  <Button variant="primary" onClick={()=>register()}>
-    Registrar
-  </Button>
+  <LoadingButton/>
   {feedback.empty ? (
               <h1> </h1>
             ) : (

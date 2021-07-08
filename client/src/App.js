@@ -11,6 +11,7 @@ function App() {
     } else {
       tipo.type = 'password';
     }}
+    
   return ( <BrowserRouter>
     <NavBarComp />
     <Route exact path="/">
