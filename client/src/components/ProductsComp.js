@@ -3,61 +3,53 @@ import { Alert, Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 function ProductsComp(){
     const [feedback, setFeedback] = useState({ empty: true });
-    const [allProducts, setAllProducts] = useState ([])
-  /*const [maleProducts, setMaleProducts] = useState ([])
-    const [femaleProducts, setfemaleProducts] = useState ([])
-    const [kidProducts, setkidProducts] = useState ([]) */
-    const [showProducts, setShowProducts] = useState ('')
+    const [data, setData] = useState ('')
+    const [dataMale, setDataMale] = useState([])
+    const [dataFemale, setDataFemale] = useState([])
+    const [dataKid, setDataKid] = useState([])
+  
+                            //----- GRABA LOS PRODUCTOS ----------------------
 
     useEffect(() =>{ fetch('http://localhost:3001/products/products')
     .then((res) => res.json())
     .then(function (datos) {
-        console.log(datos)
         if (datos.error) {
             setFeedback(datos);
-            setTimeout(()=>{setFeedback({empty:true})}, 5000);
-            } else {
-                setAllProducts(datos.contenido)
+            setTimeout(()=>{setFeedback({empty:true})}, 5000); 
+            } else {     
+              setData(datos.contenido);
+              setDataMale(data.filter((clothe)=>clothe.collection==="male"));
+              setDataFemale(data.filter((clothe)=>clothe.collection==="female"));
+              setDataKid(data.filter((clothe)=>clothe.collection==="kid"));
         }
-    });
+    })
     },[])
+   
 
+                              //----- TODOS LOS PRODUCTOS ----------------------
+    
+    let prevShowProducts = []
   useEffect(() =>{
-    const prevShowProducts = allProducts.map((product, index) => {
+    prevShowProducts = data.map((product, index) => {
     return(
-      <Row>
     <Col xs={6} md={4}>
     <Card style={{ width: '18rem' }} key={index}>
     <Card.Img variant="top" src={product.url_img} alt={product.title} />
      <Card.Body>
      <Card.Title>{product.title}</Card.Title>
      <Card.Text>{product.price} EUR. </Card.Text>
-    <Button variant="primary" /* onClick={addToBag(datos.contenido.index)}  */ >Añadir al carrito</Button>
+    <Button variant="primary" >Añadir al carrito</Button>
     </Card.Body>
     </Card>
-    </Col>
-    </Row>)
-});
-setShowProducts(prevShowProducts)},
-[allProducts]) 
-
-
-console.log(allProducts)
-
-/* const maleClothes = allProducts.filter((clothe)=>clothe.collection==="male");
-const femaleClothes = allProducts.filter((clothe)=>clothe.collection==="female");
-const kidClothes= allProducts.filter((clothe)=>clothe.collection ==="kid");  */
-
-
+    </Col>)
+})},[data])
 
 
 
     return <>
     <Container>
       <Row>
-      <Col>
-      {showProducts}
-    </Col>
+     {prevShowProducts} 
       </Row>
     {feedback.empty ? 
     (<h1> </h1>) : 
