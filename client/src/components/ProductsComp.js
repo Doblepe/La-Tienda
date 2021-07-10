@@ -3,7 +3,8 @@ import { Alert, Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 function ProductsComp(){
     const [feedback, setFeedback] = useState({ empty: true });
-    const [data, setData] = useState ('')
+    const [data, setData] = useState ([])
+    const [showProducts, setShowProducts] = useState('')
     const [dataMale, setDataMale] = useState([])
     const [dataFemale, setDataFemale] = useState([])
     const [dataKid, setDataKid] = useState([])
@@ -17,7 +18,7 @@ function ProductsComp(){
             setFeedback(datos);
             setTimeout(()=>{setFeedback({empty:true})}, 5000); 
             } else {     
-              setData(datos.contenido);
+              setData(datos.contenido)
               setDataMale(data.filter((clothe)=>clothe.collection==="male"));
               setDataFemale(data.filter((clothe)=>clothe.collection==="female"));
               setDataKid(data.filter((clothe)=>clothe.collection==="kid"));
@@ -28,9 +29,9 @@ function ProductsComp(){
 
                               //----- TODOS LOS PRODUCTOS ----------------------
     
-    let prevShowProducts = []
+  
   useEffect(() =>{
-    prevShowProducts = data.map((product, index) => {
+   const prevShowProducts = data.map((product, index) => {
     return(
     <Col xs={6} md={4}>
     <Card style={{ width: '18rem' }} key={index}>
@@ -42,14 +43,12 @@ function ProductsComp(){
     </Card.Body>
     </Card>
     </Col>)
-})},[data])
-
-
+});setShowProducts(prevShowProducts)},[data])
 
     return <>
     <Container>
       <Row>
-     {prevShowProducts} 
+     {showProducts} 
       </Row>
     {feedback.empty ? 
     (<h1> </h1>) : 
