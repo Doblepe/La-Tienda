@@ -2,12 +2,18 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 
-function LoginComp (props){
+function LoginComp (){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
   const [feedback, setFeedback] = useState({ empty: true });
  /*  const [login, setLogin] = useState({log:false}) */
-
+ function showPass() {
+  var tipo = document.getElementById('password');
+  if (tipo.type === 'password') {
+    tipo.type = 'text';
+  } else {
+    tipo.type = 'password';
+  }}
 function loadingAcc(){
   fetch('http://localhost:3001/login', {
   method: 'POST',
@@ -74,7 +80,7 @@ return (<Container>
     <Form.Control type="password" placeholder="Contraseña" id="password" onChange={(e)=>{setPassword(e.target.value)}}/>
   </Form.Group>
   <Form.Group>
-    <Form.Check type="checkbox" label="Check me out" onClick={props.showPass} />
+    <Form.Check type="checkbox" label="Check me out" onClick={showPass} />
   </Form.Group>
 
  {/*  <Button variant="primary" type="submit" onClick={()=>{setLogin({log:true})}}>

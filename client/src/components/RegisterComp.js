@@ -1,7 +1,7 @@
 import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useState, useEffect} from 'react'
 import {Link,} from 'react-router-dom'
-function RegisterComp (props){
+function RegisterComp (){
 const [nombre, setNombre] = useState('')
 const [apellidos, setApellidos] = useState('')
 const [email, setEmail] = useState('')
@@ -26,6 +26,14 @@ function register(){
       setFeedback(datos);
       setTimeout(()=>{setFeedback({empty:true})}, 5000)
   });}
+  function showPass() {
+    var tipo = document.getElementById('password');
+    if (tipo.type === 'password') {
+      tipo.type = 'text';
+    } else {
+      tipo.type = 'password';
+    }}
+
  /// --------------------- LOADING BOTÓN --------------
   function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
@@ -81,7 +89,7 @@ return (<Container>
     <Form.Control type="password" placeholder="Password" id="password" onChange={(e)=>{setPassword(e.target.value)}}/>
   </Form.Group>
   <Form.Group>
-    <Form.Check type="checkbox" label="Check me out" onClick={props.showPass}/>
+    <Form.Check type="checkbox" label="Check me out" onClick={showPass}/>
   </Form.Group>
   <LoadingButton/>
   {feedback.empty ? (
