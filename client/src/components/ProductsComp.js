@@ -1,17 +1,17 @@
 import {useState, useEffect} from 'react'
 import { Alert, Card, Button, Container, Row, Col } from 'react-bootstrap';
 
-function ProductsComp(){
+function ProductsComp(props){
     const [feedback, setFeedback] = useState({ empty: true });
     const [data, setData] = useState ([])
     const [showProducts, setShowProducts] = useState('')
-    const [dataMale, setDataMale] = useState([])
+   /*  const [dataMale, setDataMale] = useState([])
     const [dataFemale, setDataFemale] = useState([])
-    const [dataKid, setDataKid] = useState([])
+    const [dataKid, setDataKid] = useState([]) */
   
                             //----- GRABA LOS PRODUCTOS ----------------------
 
-    useEffect(() =>{ fetch('http://localhost:3001/products/products')
+    useEffect(() =>{ fetch(`http://localhost:3001/products/${props.select}`) // con comillas francesas tengo hacer fetch al buscado
     .then((res) => res.json())
     .then(function (datos) {
         if (datos.error) {
@@ -19,13 +19,14 @@ function ProductsComp(){
             setTimeout(()=>{setFeedback({empty:true})}, 5000); 
             } else {     
               setData(datos.contenido)
-              setDataMale(data.filter((clothe)=>clothe.collection==="male"));
+              /* setDataMale(data.filter((clothe)=>clothe.collection==="male"));
               setDataFemale(data.filter((clothe)=>clothe.collection==="female"));
-              setDataKid(data.filter((clothe)=>clothe.collection==="kid"));
+              setDataKid(data.filter((clothe)=>clothe.collection==="kid")); */
+
+              // -------------- SOBRAN SI VIENEN PPREVIAMENTE FILTRADO POR SELECT. 
         }
     })
     },[])
-   
 
                               //----- TODOS LOS PRODUCTOS ----------------------
     
@@ -43,7 +44,7 @@ function ProductsComp(){
     </Card.Body>
     </Card>
     </Col>)
-});setShowProducts(prevShowProducts)},[data])
+});setShowProducts(prevShowProducts)},[data]) // Aquí tengo que pasar el state de select. 
 
     return <>
     <Container>

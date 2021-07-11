@@ -1,30 +1,28 @@
 import './App.css';
-import {CarouselComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp} from './components/index'
+import {CarouselComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp} from './components/index'
 import {BrowserRouter, Route} from 'react-router-dom'
+import {useState} from 'react'
 
 
 function App() {
-  function showPass() {
-    var tipo = document.getElementById('password');
-    if (tipo.type === 'password') {
-      tipo.type = 'text';
-    } else {
-      tipo.type = 'password';
-    }}
+  const[select, setSelect]= useState('');
     
   return ( <BrowserRouter>
-    <NavBarComp />
+    <NavBarComp select={select, setSelect}/>
     <Route exact path="/">
     <CarouselComp />
     </Route>
     <Route  exact path="/registro">
-      <RegisterComp showpass={showPass}/>
+      <RegisterComp />
     </Route>
     <Route exact path="/login">
-      <LoginComp showpass={showPass}/>
+      <LoginComp/>
+    </Route>
+    <Route path="/contacto">
+      <ContactComp/>
     </Route>
     <Route path="/products">
-      <ProductsComps />
+      <ProductsComps select={select}/>
     </Route>
     <FooterComp />
     

@@ -2,7 +2,7 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 
-function LoginComp (){
+function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
   const [feedback, setFeedback] = useState({ empty: true });
@@ -82,10 +82,6 @@ return (<Container>
   <Form.Group>
     <Form.Check type="checkbox" label="Check me out" onClick={showPass} />
   </Form.Group>
-
- {/*  <Button variant="primary" type="submit" onClick={()=>{setLogin({log:true})}}>
-    Entrar
-  </Button> */}
   <LoadingButton />
   {feedback.empty ? (
               <h1> </h1>

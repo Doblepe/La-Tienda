@@ -2,6 +2,11 @@
   background-color: #282c34;
   color: hsl(0, 0%, 100%);
   list-style-type: none;
+  text-decoration: none;
+}
+.footer ul {text-decoration: none;
+  list-style-type: none;
+
 }
 .footer hr{
   background-color: white

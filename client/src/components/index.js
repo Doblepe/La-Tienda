@@ -4,6 +4,6 @@ import LoginComp from "./LoginComp";
 import RegisterComp from "./RegisterComp"
 import ProductsComps from "./ProductsComp";
 import FooterComp from "./FooterComp";
-import MenuAppBar from "./acctest";
+import ContactComp from "./Contactcomp";
 
-export {CarouselComp, NavBarComp, MenuAppBar, LoginComp, RegisterComp, ProductsComps, FooterComp}
+export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp}

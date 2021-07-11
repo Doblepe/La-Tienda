@@ -67,9 +67,9 @@ app.post('/login', function (req, res) {
 		});
 });
 
-app.post('/contact.html/info', function (req, res) {
-	app.locals.db.collection('contact').insertOne(req.body, function (err, data) {
-		err ? res.send({ error: true, contenido: err }) : res.send({ error: false, contenido: data });
+app.post('/contact/info', function (req, res) {
+	app.locals.db.collection('contact').insertOne(req.body, function (err, data, mensaje) {
+		err ? res.send({ mensaje:'Ha habido un error al enviar la información, por favor, vuelve a intentarlo', error: true, contenido: err }) : res.send({ mensaje: 'Mensaje recibido correctamente. Muchas gracias por confiar en nosotros, intentaremos resolver tu incidencia lo antes posible', error: false, contenido: data });
 	});
 });
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/products', function (req, res) {
+router.get('/', function (req, res) {
 	let db = req.app.locals.db;
 	db.collection('products')
 		.find()
