@@ -18,25 +18,25 @@ function FooterComp(){
                 <h5>Contenido</h5>
                 <ul>
                     <li><Link to ="/">Inicio</Link></li>
-                    <li><Link to ="/contact">Contacto</Link></li>
+                    <li><Link to ="/contacto">Contacto</Link></li>
                     <li><Link to ="/products">productos</Link></li>
                 </ul></Col>
             <Col xs={6} md={4}>
                 <h5>Condicinoes de pago</h5>
                 <ul>
                     <li><Link to ="/">Inicio</Link></li>
-                    <li><Link to ="/contact">Contacto</Link></li>
+                    <li><Link to ="/contacto">Contacto</Link></li>
                     <li><Link to ="/products">productos</Link></li>
                 </ul></Col>
             <Col xs={6} md={4} >
                 <h5>Política de envíos</h5>
                 <ul>
                     <li><Link to ="/">Inicio</Link></li>
-                    <li><Link to ="/contact">Contacto</Link></li>
+                    <li><Link to ="/contacto">Contacto</Link></li>
                     <li><Link to ="/products">productos</Link></li>
                 </ul></Col>           
             </Row>
-            <hr/>
+            <hr/>o
             <Row className="justify-content-md-center">
             <img
                 src={logo}
