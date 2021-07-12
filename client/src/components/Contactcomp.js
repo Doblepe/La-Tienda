@@ -4,12 +4,11 @@ import face from '../assets/face.jpg'
 import twitter from '../assets/Twitter-circular-logo-PNG.png'
 
 function ContactComp(){
-   
     const [nombre, setNombre] = useState('')
     const [apellidos, setApellidos] = useState('')
     const [email, setEmail] = useState('')
     const [infomsg, setInfomsg] = useState('')
-   /*  const {file, setFile} = useState('') */
+    const [selectedFile, setSelectedFile] = useState(null);
     const [feedback, setFeedback] = useState({ empty: true });
      // ---------- LOADING BUTTON------
     function simulateNetworkRequest() {
@@ -20,7 +19,14 @@ function ContactComp(){
         useEffect(() => {
           if (isLoading) {
             simulateNetworkRequest().then(() => {
-              setLoading(false); sendInfo()
+              setLoading(false); 
+              sendInfo(); 
+              setNombre(''); 
+              setApellidos('');
+              setEmail('');
+              setInfomsg('');
+              setInfomsg('');
+              setSelectedFile(null);
             });
           }
         }, [isLoading]);
@@ -37,7 +43,7 @@ function ContactComp(){
         );
       }
       // ---------- ALERT MESSAGE------
-      function AlertDismissibleExample() {
+     /*  function AlertDismissibleExample() {
         const [show, setShow] = useState(true);
       
         if (show) {
@@ -51,10 +57,13 @@ function ContactComp(){
           );
         }
         return <Button onClick={() => setShow(true)}>Show Alert</Button>;
-      }
+      } */
+
+
+      // ------------ SEND INFO MSG ------------
       function sendInfo(){
           if(nombre && apellidos && email && infomsg !== ''){
-            fetch('/contact.html/info', {
+            fetch('http://localhost:3001/contact/info', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -62,15 +71,13 @@ function ContactComp(){
                     apellidos: apellidos,
                     email: email,
                     infomsg: infomsg,
-                   /*  file: file */
+                    file: selectedFile
                 }),
             })
                 .then((res) => res.json())
                 .then(function (datos) { setFeedback(datos);
                     setTimeout(()=>{setFeedback({empty:true})}, 5000)
-                })}else{
-                    return (<AlertDismissibleExample />)
-          }
+                })}
         }
     return (<Container>
     <Row className="justify-content-md-center">
@@ -84,7 +91,8 @@ function ContactComp(){
         height="45"
         className="d-inline-block align-top"
         alt=""
-/> <p>Escríbenos un mensaje directo a nuestro perfil de Facebook <a href="https://es-es.facebook.com/">facebook.com/LaTienda</a></p>
+/>
+ <p>Escríbenos un mensaje directo a nuestro perfil de Facebook <a href="https://es-es.facebook.com/">facebook.com/LaTienda</a></p>
         </div>
         <div>
         <img
@@ -125,9 +133,11 @@ function ContactComp(){
     <Form.Label>Explique brevemente su incidencia</Form.Label>
     <Form.Control as="textarea" rows={3} onChange={(e)=>{setInfomsg(e.target.value)}}/>
     </Form.Group>
-    <Form.Group>
-    <Form.File id="exampleFormControlFile1" label="Example file input" /* onChange={(e)=>{setFile(e.target.value)}} *//>
+    <Form>
+  <Form.Group>
+    <Form.File id="exampleFormControlFile1" label="Example file input" onChange={(e) => setSelectedFile(e.target.files[0])}/>
   </Form.Group>
+</Form>
     <LoadingButton/>
     {feedback.empty ? (
               <h1> </h1>
