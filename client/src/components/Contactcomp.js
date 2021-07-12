@@ -43,6 +43,7 @@ function ContactComp(){
         );
       }
       // ---------- ALERT MESSAGE------
+      // TODO: ARREGLAR EL FEEDBACK EN CASO DE QUE HAYA PROBLEMAS. 
      /*  function AlertDismissibleExample() {
         const [show, setShow] = useState(true);
       
@@ -62,7 +63,6 @@ function ContactComp(){
 
       // ------------ SEND INFO MSG ------------
       function sendInfo(){
-          if(nombre && apellidos && email && infomsg !== ''){
             fetch('http://localhost:3001/contact/info', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -78,7 +78,7 @@ function ContactComp(){
                 .then(function (datos) { setFeedback(datos);
                     setTimeout(()=>{setFeedback({empty:true})}, 5000)
                 })}
-        }
+
     return (<Container>
     <Row className="justify-content-md-center">
     <Col xs ="8" lg="10">
