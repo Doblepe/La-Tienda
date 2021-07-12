@@ -36,7 +36,7 @@ function FooterComp(){
                     <li><Link to ="/products">productos</Link></li>
                 </ul></Col>           
             </Row>
-            <hr/>o
+            <hr/>
             <Row className="justify-content-md-center">
             <img
                 src={logo}
