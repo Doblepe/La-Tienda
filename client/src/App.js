@@ -1,13 +1,12 @@
 import './App.css';
 import {CarouselComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp} from './components/index'
 import {BrowserRouter, Route} from 'react-router-dom'
-import {useState} from 'react'
+
 
 
 function App() {
-  const[select, setSelect]= useState('');
   return ( <BrowserRouter>
-    <NavBarComp select={setSelect}/>
+    <NavBarComp/>
     <Route exact path="/">
     <CarouselComp />
     </Route>

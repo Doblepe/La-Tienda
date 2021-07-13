@@ -13,7 +13,7 @@ const bcrypt = require('bcrypt');
 
 let MongoClient = mongodb.MongoClient;
 MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
-	err ? console.log(err) : (app.locals.db = client.db("store"));
+	err ? console.log(err) : (app.locals.db = client.db("store"), console.log('Mongo conectado'));
 });
 
 app.use('/products', products);
@@ -73,7 +73,7 @@ app.post('/contact/info', function (req, res) {
 	});
 });
 
-app.delete('/borrar', function (req, res) {
+/* app.delete('/borrar', function (req, res) {
 	let username = req.body.userName;
 	app.locals.db
 		.collection('users')
@@ -137,7 +137,7 @@ app.put('/editar', function (req, res) {
 				}
 			}
 		});
-});
+}); */
 function cryptPass(req, res, next) {
 	let usuario = req.body;
 	usuario.password = bcrypt.hashSync(usuario.password, 10);
