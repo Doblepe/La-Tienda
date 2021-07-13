@@ -1,39 +1,36 @@
 import './App.css';
-import {CarouselComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp} from './components/index'
-import {BrowserRouter, Route} from 'react-router-dom'
-
-
-
+import { CarouselComp, LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
+import { BrowserRouter, Route } from 'react-router-dom'
 function App() {
-  return ( <BrowserRouter>
-    <NavBarComp/>
+  return (<BrowserRouter>
+    <NavBarComp />
     <Route exact path="/">
-    <CarouselComp />
+    
+      <LandingComp />
     </Route>
-    <Route  exact path="/registro">
+    <Route exact path="/registro">
       <RegisterComp />
     </Route>
     <Route exact path="/login">
-      <LoginComp/>
+      <LoginComp />
     </Route>
     <Route path="/contacto">
-      <ContactComp/>
+      <ContactComp />
     </Route>
     <Route path="/products">
-      <ProductsComps/>
+      <ProductsComps />
     </Route>
     <Route path="/femaleCollection">
-    <FemaleCollectionComp />
+      <FemaleCollectionComp />
     </Route>
     <Route path="/maleCollection">
-    <MaleCollectionComp />
+      <MaleCollectionComp />
     </Route>
     <Route path="/kidCollection">
-    <KidCollectionComp />
+      <KidCollectionComp />
     </Route>
-    
     <FooterComp />
-   </BrowserRouter>);
+  </BrowserRouter>);
 }
 
 export default App;
