@@ -1,12 +1,14 @@
 import Carousel from "react-bootstrap/Carousel"
-import landing1 from "../assets/Estilos-de-moda-Cuál-es-el-tuyo.jpg"
+import landing1 from "../assets/male-carousel.jpg"
 import landing2 from "../assets/moda_tendencias_voguees_965319015.jpg"
-import landing3 from "../assets/Tips-de-moda-y-actualidad-para-hombres....png"
+import landing3 from "../assets/kid-carousel.jpg"
+
 function CarouselComp(){
     return (<Carousel fade>
     <Carousel.Item>
+      {/* //FIXME: CENTRAR IMÁGENES AL HACERLAS RESPONSIVE */}
       <img
-        className="d-block w-80"
+        className="mx-auto d-block"
         src={landing1}
         alt="First slide"
       />
@@ -17,11 +19,10 @@ function CarouselComp(){
     </Carousel.Item>
     <Carousel.Item>
       <img
-        className="d-block w-80"
+        className="mx-auto d-block"
         src={landing2}
         alt="Second slide"
       />
-  
       <Carousel.Caption>
         <h3>Second slide label</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -29,11 +30,10 @@ function CarouselComp(){
     </Carousel.Item>
     <Carousel.Item>
       <img
-        className="d-block w-80"
+        className="mx-auto d-block"
         src={landing3}
         alt="Third slide"
       />
-  
       <Carousel.Caption>
         <h3>Third slide label</h3>
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>

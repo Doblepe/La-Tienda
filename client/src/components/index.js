@@ -8,5 +8,6 @@ import ContactComp from "./Contactcomp";
 import FemaleCollectionComp from "./FemaleCollectionComp";
 import MaleCollectionComp from "./MaleCollectionComp";
 import KidCollectionComp from "./KidCollectionComp";
+import LandingComp from "./LandingComp";
 
-export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp}
+export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp,FemaleCollectionComp, MaleCollectionComp, KidCollectionComp,LandingComp}

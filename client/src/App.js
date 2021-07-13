@@ -1,11 +1,10 @@
 import './App.css';
-import { CarouselComp, LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
+import { LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
 import { BrowserRouter, Route } from 'react-router-dom'
 function App() {
   return (<BrowserRouter>
     <NavBarComp />
     <Route exact path="/">
-    
       <LandingComp />
     </Route>
     <Route exact path="/registro">

@@ -1,6 +1,6 @@
 import { Card, Button, Col,Row,Container } from 'react-bootstrap';
 function Tarjeta(props){
-    return (<Col xs={6} md={4}>
+    return (<Col xs={12} md={4}>
         <Card style={{ width: '18rem' }} key={props.index}>
         <Card.Img variant="top" src={props.product.url_img} alt={props.product.title} />
          <Card.Body>

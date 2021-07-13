@@ -14,3 +14,19 @@
 .footer-content{
   padding-top: 25px;
 }
+footer img {
+  justify-content: center;
+}
+.jumbo{
+  background-image: url('../src/assets/jumbo.jpg');
+  background-position:top;
+  height: 400px;
+  padding-top: 20px;
+  margin:2rem;
+  background-repeat: no-repeat;
+  justify-content: flex-start;
+}
+.carousel-img{
+  position: absolute;
+  align-items: center;
+}

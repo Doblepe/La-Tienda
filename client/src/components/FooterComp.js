@@ -37,17 +37,19 @@ function FooterComp(){
                 </ul></Col>           
             </Row>
             <hr/>
-            <Row className="justify-content-md-center">
-            <img
+            <Row className="justify-content-sm-center">
+                <Col className="justify-content-sm-center" >
+                <img
                 src={logo}
                 width="45"
                 height="45"
                 className="d-inline-block align-top"
                 alt="Víctor's Shop"
              />
-             </Row>
-             <Row className="justify-content-md-center">
             <p>Política de copyright © 2021 - Todos los derechos de esta página web quedan reservados</p>
+                
+                </Col>
+            
             </Row>
         </Container>
     )
