@@ -4,6 +4,8 @@ import landing2 from "../assets/moda_tendencias_voguees_965319015.jpg"
 import landing3 from "../assets/kid-carousel.jpg"
 
 function CarouselComp(){
+
+   // TODO: Recortar las imágenes del carousel y con photopea y cambiarlas según el breakpoint
     return (<Carousel fade>
     <Carousel.Item>
       {/* //FIXME: CENTRAR IMÁGENES AL HACERLAS RESPONSIVE */}
