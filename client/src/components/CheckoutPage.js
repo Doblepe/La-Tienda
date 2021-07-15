@@ -1,8 +1,8 @@
 import { Card, Button, Col,Row,Container } from 'react-bootstrap';
-import {useReducer} from 'react'
+import CheckOutCard from './CheckOutCard';
 
 function Tarjetas(props){    
-     const prevShowProducts = props.data.map((product, index) => {return(<Tarjeta product={product} index={index}/>)})
+     const prevShowProducts = props.data.map((product, index) => {return(<CheckOutCard product={product} index={index}/>)})
     return (<Container>
         <Row>
        {prevShowProducts} 
@@ -10,7 +10,6 @@ function Tarjetas(props){
       </Container>
       )
 }
-
 function Tarjeta(props){
   return (<Col xs={12} md={4} lg={3}>
       <Card style={{ width: '18rem' }} key={props.index}>
