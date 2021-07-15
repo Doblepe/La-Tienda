@@ -1,9 +1,9 @@
 import { Card, Button, Col,Row,Container } from 'react-bootstrap';
-import {useReducer} from 'react'
+
 
 function Tarjetas(props){    
      const prevShowProducts = props.data.map((product, index) => {return(<Tarjeta product={product} index={index}/>)})
-    return (<Container>
+    return (<Container fluid>
         <Row>
        {prevShowProducts} 
         </Row>
