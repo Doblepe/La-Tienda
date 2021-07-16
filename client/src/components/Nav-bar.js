@@ -1,10 +1,23 @@
 import { Navbar, Nav, NavDropdown, } from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
 
-
-function NavBarComp(props) {
-
+const mapStateToProps = state => {
+  return{
+    cart: state.shop.cart
+  }
+}
+function NavBarComp({cart}) {
+const [cartCount, setCartCount] = useState(0);
+useEffect(() =>{
+  let count = 0;
+  cart.forEach(item => {
+    count += item.qty
+  });
+  setCartCount(count)
+},[cart, cartCount])
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/">
@@ -30,8 +43,10 @@ function NavBarComp(props) {
         <Nav className="nav-sesion">
           <Nav.Link as={Link} to="/login">Inicia Sesión</ Nav.Link>
           <Nav.Link as={Link} to="/registro">Únete a Nosotros</ Nav.Link>
+          <Nav.Link as={Link} to="/cart">Carrito</ Nav.Link>
+          <div>{cartCount}</div>
         </Nav>
       </Navbar.Collapse>
     </Navbar>)
 }
-export default NavBarComp
+export default connect(mapStateToProps) (NavBarComp)

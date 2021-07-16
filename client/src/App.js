@@ -1,6 +1,7 @@
 import './App.css';
 import { LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
 import { BrowserRouter, Route } from 'react-router-dom'
+import CartComp from './components/cartComp';
 function App() {
   return (<BrowserRouter>
     <NavBarComp />
@@ -27,6 +28,9 @@ function App() {
     </Route>
     <Route path="/kidCollection">
       <KidCollectionComp />
+    </Route>
+    <Route path="/cart">
+      <CartComp/>
     </Route>
     <FooterComp />
   </BrowserRouter>);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Tarjetas from "./TarjetasComp";
+import Products from "./Products";
+
 function KidCollectionComp() {
     const [data, setData] = useState([]);
     useEffect(() => {
@@ -13,6 +14,6 @@ function KidCollectionComp() {
             }
         })
     }, [])
-    return <Tarjetas data={data} />
+    return <Products data={data} />
 }
 export default KidCollectionComp

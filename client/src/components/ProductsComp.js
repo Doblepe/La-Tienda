@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Tarjetas from "./TarjetasComp";
+import Products from "./Products";
 function ProductsComp() {
     const [data, setData] = useState([])
     useEffect(() => {
@@ -9,6 +9,6 @@ function ProductsComp() {
             setData(datos.contenido)
         })
     })
-    return <Tarjetas data={data} />
+    return <Products data={data} />
 }
 export default ProductsComp
