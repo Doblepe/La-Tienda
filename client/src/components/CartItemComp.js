@@ -13,15 +13,15 @@ function CartItemComp({itemData, removeFromCart, adjustQTY}){
         <Card style={{ width: '10rem' }} key={itemData.index}>
         <Card.Img variant="top" src ={itemData.url_img} alt={itemData.title} />
          <Card.Body>
-         <Card.Title>{itemData.title}</Card.Title>
+         <h5>{itemData.title}</h5>
          <Card.Text>{itemData.price} EUR. </Card.Text>
          <Button onClick={()=>removeFromCart(itemData.id)}>
              Borrar
          </Button>
-         <div>
+         <Col>
              <label htmlFor="qty">Qty</label>
-             <input min="1" type="number" id="qty" name="qty" value={input} onChange={onChangeHandler}/>
-         </div>
+             <input className="input" min="1" type="number" id="qty" name="qty" value={input} onChange={onChangeHandler}/>
+            </Col>
         </Card.Body>
         </Card>
         </Col>))
