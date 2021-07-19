@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
-import Products from "./Products";
+import { Row,Container } from 'react-bootstrap';
+import { connect } from "react-redux";
+import Product from './Product';
 
-function ProductsComp() {
-    const [data, setData] = useState([])
-    useEffect(() => {
-        fetch(`http://localhost:3001/products/`)
-        .then((res) => res.json())
-        .then(function (datos) {
-            setData(datos.contenido)
-        })
-    })
-    return <Products data={data} />
+const mapStateToProps = state =>{
+    return {
+      products: state.shop.products,
+    }
 }
-export default ProductsComp
+function ProductsComp({products}) {
+    return (<Container>
+        <Row>
+        {products.map((prod) => {return(<Product key={prod.id}productData={prod}/>)})}
+        </Row>
+    </Container>)
+}
+
+export default connect(mapStateToProps)(ProductsComp)

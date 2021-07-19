@@ -16,6 +16,7 @@ function Products({products}){
   </Row>
 </Container>
 ) 
-
 }
 export default connect(mapStateToProps)(Products);
+
+ 

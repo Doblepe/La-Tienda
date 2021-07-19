@@ -10,7 +10,7 @@ function CartItemComp({itemData, removeFromCart, adjustQTY}){
        adjustQTY(itemData.id, e.target.value)
    }
     return ( (<Col xs={12} md={4} lg={3}>
-        <Card style={{ width: '18rem' }} key={itemData.index}>
+        <Card style={{ width: '10rem' }} key={itemData.index}>
         <Card.Img variant="top" src ={itemData.url_img} alt={itemData.title} />
          <Card.Body>
          <Card.Title>{itemData.title}</Card.Title>

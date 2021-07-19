@@ -1,5 +1,6 @@
-import { Navbar, Nav, NavDropdown, } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button, Badge} from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
+import carrito from '../assets/carrito.png'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -20,7 +21,7 @@ useEffect(() =>{
 },[cart, cartCount])
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">
+      <Navbar.Brand as={Link} to="/">
         <img
           src={logo}
           width="45"
@@ -43,8 +44,16 @@ useEffect(() =>{
         <Nav className="nav-sesion">
           <Nav.Link as={Link} to="/login">Inicia Sesión</ Nav.Link>
           <Nav.Link as={Link} to="/registro">Únete a Nosotros</ Nav.Link>
-          <Nav.Link as={Link} to="/cart">Carrito</ Nav.Link>
-          <div>{cartCount}</div>
+          <Navbar.Brand as={Link} to="/cart">
+        <img
+          src={carrito}
+          width="25"
+          height="25"
+          className="d-inline-block align-top"
+          alt=""
+        /></Navbar.Brand>
+          <Button as={Link} to="/cart" variant="info"><Badge bg="secondary">{cartCount}</Badge>  
+          </Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>)
