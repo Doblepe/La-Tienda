@@ -1,8 +1,14 @@
 import {Card, Col, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {removeFromCart} from '../../src/redux/shopping/shopping-actions'
+import {removeFromCart, adjustQTY} from '../../src/redux/shopping/shopping-actions'
+import {useState} from 'react'
 
-function CartItemComp({itemData, removeFromCart}){
+function CartItemComp({itemData, removeFromCart, adjustQTY}){
+    const [input, setInput] = useState(itemData.qty)
+   const onChangeHandler =(e) =>{
+       setInput(e.target.value);
+       adjustQTY(itemData.id, e.target.value)
+   }
     return ( (<Col xs={12} md={4} lg={3}>
         <Card style={{ width: '18rem' }} key={itemData.index}>
         <Card.Img variant="top" src ={itemData.url_img} alt={itemData.title} />
@@ -14,7 +20,7 @@ function CartItemComp({itemData, removeFromCart}){
          </Button>
          <div>
              <label htmlFor="qty">Qty</label>
-             <input min="1" type="number" id="qty" name="qty" value={itemData.qty} />
+             <input min="1" type="number" id="qty" name="qty" value={input} onChange={onChangeHandler}/>
          </div>
         </Card.Body>
         </Card>
@@ -23,7 +29,8 @@ function CartItemComp({itemData, removeFromCart}){
 }
 const mapDispatchToProps = dispatch => {
     return {
-        removeFromCart:(id)=>dispatch(removeFromCart(id))
+        removeFromCart:(id)=>dispatch(removeFromCart(id)),
+        adjustQTY: (id, value)=>dispatch(adjustQTY(id, value))
     }
 }
 export default connect(null, mapDispatchToProps)(CartItemComp)

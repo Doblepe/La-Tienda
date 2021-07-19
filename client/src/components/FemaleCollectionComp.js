@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import Products from "./Products";
-function FemaleCollectionComp() {
-    const [data, setData] = useState([])
-    useEffect(() => {
-        fetch(`http://localhost:3001/products/femaleCollection`)
-        .then((res) => res.json())
-        .then(function (datos) {
-            if (datos.error) {
-                window.alert('Error al cargar la página');
-            } else {
-                setData(datos.contenido)
-            }
-        })
-    }, [])
-    return <Products data={data} />
+import { Row,Container } from 'react-bootstrap';
+import { connect } from "react-redux";
+import Product from './Product';
+
+const mapStateToProps = state =>{
+    return {
+      products: state.shop.products,
+    }
 }
-export default FemaleCollectionComp
+function FemaleCollectionComp({products}) {
+    return (<Container>
+        <Row>
+        {products.filter((el)=>{return el.collection==='female'}).map((prod) => {return(<Product key={prod.id}productData={prod}/>)})}
+        </Row>
+    </Container>)
+}
+
+export default connect(mapStateToProps)(FemaleCollectionComp)

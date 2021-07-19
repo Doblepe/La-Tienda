@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Products from "./Products";
+
 function ProductsComp() {
     const [data, setData] = useState([])
     useEffect(() => {

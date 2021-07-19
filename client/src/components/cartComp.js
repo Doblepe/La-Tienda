@@ -18,12 +18,10 @@ function CartComp ({cart}){
     return ( 
         <Container>
             <Row>
-                <Col>
-                <div>
-                    {cart.map(item =>(
+            {cart.map(item =>(
                         <CartItem key = {item.id} itemData={item}/>
                     ))}
-                </div>
+                    <Col>
                 <h4>Productos en el carrito</h4>
                 <div>
                     <span>TOTAL: ({totalItems} productos)</span>
@@ -31,7 +29,7 @@ function CartComp ({cart}){
                 </div>
                 <Button variant="primary">Realizar Pedido</Button>
                 </Col>
-            </Row>
+                </Row>  
         </Container>
     )
 }
