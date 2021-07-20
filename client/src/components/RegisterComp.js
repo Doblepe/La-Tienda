@@ -1,6 +1,7 @@
 import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useState, useEffect} from 'react'
 import {Link,} from 'react-router-dom'
+import Axios from "axios";
 function RegisterComp (){
 const [nombre, setNombre] = useState('')
 const [apellidos, setApellidos] = useState('')
@@ -9,23 +10,23 @@ const [password, setPassword] = useState('')
 const [feedback, setFeedback] = useState({ empty: true });
 
 function register(){
-  fetch('http://localhost:3001/registro', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-      email: email,
+  Axios({
+    method: "POST",
+    data: {
       nombre: nombre,
       apellidos: apellidos,
+      email: email,
       password: password,
-      bag: [],
-  }),
+    },
+    withCredentials: true,
+    url: "http://localhost:3001/registro",
+  }).then((res) => {
+    return (
+    console.log(res),
+    setFeedback(res),
+    setTimeout(()=>{setFeedback({empty:true})}, 5000))
 })
-  .then((res) => res.json())
-  .then(function (datos) {
-      console.log(datos);
-      setFeedback(datos);
-      setTimeout(()=>{setFeedback({empty:true})}, 5000)
-  });}
+}  
   function showPass() {
     var tipo = document.getElementById('password');
     if (tipo.type === 'password') {
@@ -95,8 +96,8 @@ return (<Container>
   {feedback.empty ? (
               <h1> </h1>
             ) : (
-              <Alert variant={feedback.error ? "danger" : "success"}>
-                {feedback.mensaje}
+              <Alert variant={feedback.err ? "danger" : "success"}>
+                {feedback.data.mensaje}
               </Alert>
             )}
 </Form>   
