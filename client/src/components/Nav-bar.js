@@ -1,6 +1,6 @@
-import { Navbar, Nav, NavDropdown, Button, Badge} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button, Badge, Alert} from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
-import carrito from '../assets/carrito.png'
+import Axios from "axios";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -12,6 +12,20 @@ const mapStateToProps = state => {
 }
 function NavBarComp({cart}) {
 const [cartCount, setCartCount] = useState(0);
+const [feedback, setFeedback] = useState({ empty: true });
+
+const logout = () => {
+  Axios({
+    method: "POST",
+    withCredentials: true,
+    url: "http://localhost:3001/logout",
+  }).then((res) => {
+    return (
+    console.log(res),
+    setFeedback(res),
+    setTimeout(()=>{setFeedback({empty:true})}, 2000) )
+})
+};
 useEffect(() =>{
   let count = 0;
   cart.forEach(item => {
@@ -44,14 +58,18 @@ useEffect(() =>{
         <Nav className="nav-sesion">
           <Nav.Link as={Link} to="/login">Inicia Sesión</ Nav.Link>
           <Nav.Link as={Link} to="/registro">Únete a Nosotros</ Nav.Link>
-          <Navbar.Brand as={Link} to="/cart">
-        <img
-          src={carrito}
-          width="25"
-          height="25"
-          className="d-inline-block align-top"
-          alt=""
-        /></Navbar.Brand>
+          <Button onClick={logout}>Logout</Button>
+         {feedback.empty ? (
+              <h1> </h1>
+            ) : (
+              <Alert variant={feedback.err ? "danger" : "success"}>
+                {feedback.data.mensaje}
+              </Alert>
+            )} 
+          <Navbar.Brand as={Link} to="/cart"><span
+                      style={{ fontSize: 20 }}
+                      className="mdi mdi-cart"
+                    /></Navbar.Brand>
           <Button as={Link} to="/cart" variant="info"><Badge bg="secondary">{cartCount}</Badge>  
           </Button>
         </Nav>

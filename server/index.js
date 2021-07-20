@@ -1,26 +1,53 @@
 const express = require('express');
 const mongodb = require('mongodb');
+const MongoStore = require("connect-mongo");
+const cookieParser = require('cookie-parser')
+const secreto = "patata";
+const crypto = require("crypto");
 require('dotenv').config();
-const bcrypt = require('bcrypt');
 const app = express();
 const port = process.env.PORT || 3001
 const cors = require('cors')
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-// const router = express.Router();//
-let products = require('./routes/routes');
-app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
-	session({
-		secret: "patata", //secreto de la sesion (se puede hacer dinámico)
-		resave: false, //Evita el reseteo de la sesión con cada llamada
-		saveUninitialized: false, //Evita crear sesiones vacías
-		// cookie: { maxAge: 60000 }
+	cors({
+		origin: "http://localhost:3000", //dirección de la app de React desde la que nos llegarán las peticiones.
+		credentials: true,
 	})
 );
+
+app.use(
+	session({
+		secret: secreto, //Secreto de la sesion (se puede hacer dinámico),
+		resave: false, //Evita el reseteo de la sesión con cada llamada
+		saveUninitialized: false, //Evita crear sesiones vacías
+		store: MongoStore.create({
+			//Nos guarda las sesiones en la colección "sesiones" en la base de datos "prueba"
+			mongoUrl: process.env.MONGO_URL,
+			dbName: "prueba",
+			collectionName: "sesiones",
+			ttl: 1000 * 60 * 60 * 24, //Time To Live de las sesiones
+			autoRemove: "native", //Utiliza el registro TTL de Mongo para ir borrando las sesiones caducadas.
+		}),
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24, //Caducidad de la cookie en el navegador del cliente.
+		},
+	})
+);
+app.use(cookieParser(secreto)); //Mismo que el secreto de la sesión
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+	//Middleware para publicar en consola la sesión y el usuario. Activar en desarrollo.
+	console.log(req.session ? req.session : "No hay sesión");
+	console.log(req.user ? req.user : "No hay usuario");
+	next();
+})
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,73 +60,88 @@ MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTo
 //------------------- Autorización y gestión de sesiones ----------
 passport.use(
 	new LocalStrategy(
-	  {
-		usernameField: "email",
-		passwordField: "password",
-	  },
-	  function (email, password, done) {
-		app.locals.db.collection("users").findOne({ email: email }, function (err, user) {
-		  if (err) {
-			return done(err);
-		  }
-		  if (!user) {
-			return done(null, false);
-		  }
-		  if (!bcrypt.compareSync(password, user.password)) { 
-			  console.log(password + user.password)// ----- OJO AL BICRYP
-			return done(null, false);
-		  }
-		  return done(null, user);
-		});
-	  }
+		{
+			usernameField: "email",
+			passwordField: "password",
+		},
+		function (email, password, done) {
+			app.locals.db.collection("users").findOne({ email: email }, function (err, user) {
+				if (err) {
+					return done(err);
+				}
+				if (!user) {
+					return done(null, false);
+				}
+				if (!validoPass(password, user.password.hash, user.password.salt)) {
+					return done(null, false, arg);
+				}
+				return done(null, user);
+			});
+		}
 	)
-  );
-app.use(
-	session({
-	  secret: "patata", //secreto de la sesion (se puede hacer dinámico)
-	  resave: false, //Evita el reseteo de la sesión con cada llamada
-	  saveUninitialized: false, //Evita crear sesiones vacías
-	  // cookie: { maxAge: 600000 }
-	})
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-app.use('/products', products);
+);
+passport.serializeUser(function (user, done) {
+	console.log("-> Serialize");
+	done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+	console.log("-> Deserialize");
+	app.locals.db.collection("users").findOne(
+		{ email: user.email },
+		function (err, usuario) {
+			if (err) {
+				return done(err);
+			}
+			if (!usuario) {
+				return done(null, null);
+			}
+			return done(null, usuario);
+		}
+	);
+});
 passport.serializeUser(function (user, done) {
 	done(null, user.email);
-  });
-  // Introduce la cookie en el navegador del usuario. 
-  passport.deserializeUser(function (email, done) {
+});
+// Introduce la cookie en el navegador del usuario. 
+passport.deserializeUser(function (email, done) {
 	app.locals.db.collection("users").findOne({ email: email }, function (err, user) {
-	  if (err) {
-		return done(err);
-	  }
-	  if (!user) {
-		return done(null, null);
-	  }
-	  return done(null, user), console.log(user);
+		if (err) {
+			return done(err);
+		}
+		if (!user) {
+			return done(null, null);
+		}
+		return done(null, user), console.log(user);
 	});
-  });
+});
 // ----------------------- REGISTRO -------------------------------
-app.post('/registro', cryptPass, function (req, res) {
-	console.log(req.body)
-	app.locals.db
-		.collection('users')
+app.post("/registro", function (req, res) {
+	app.locals.db.collection("users")
 		.find({ email: req.body.email })
-		.toArray(function (err, data) {
-			if (err) {
-				res.send({ error: true, contenido: err, mensaje: "Problemas al conectar con la base de datos" });
-			} else {
-				if (data.length === 0) {
-					app.locals.db.collection('users').insertOne(req.body, function (err, data) {
+		.toArray(function (err, user) {
+			if (user.length === 0) {
+				const saltYHash = creaPass(req.body.password);
+				app.locals.db.collection("users").insertOne(
+					{
+						nombre: req.body.nombre,
+						apellidos: req.body.apellidos,
+						email: req.body.email,
+						password: {
+							hash: saltYHash.hash,
+							salt: saltYHash.salt,
+						},
+					},
+					function (err, respuesta) {
 						if (err !== null) {
-							res.send({ mensaje: 'Error al registrar el usuario', error: true });
+							console.log(err);
+							res.send({ mensaje: "Ha habido un error: " + err });
 						} else {
-							res.send({ mensaje: 'Usuario registrado correctamente', contenido: data, error: false });
+							res.send({ mensaje: "Usuario registrado" });
 						}
-					});
-				} else (res.send({ mensaje: "El usuario ya existe", error: true }))
+					}
+				);
+			} else {
+				res.send({ err: true, mensaje: "Usuario ya registrado" });
 			}
 		});
 });
@@ -107,297 +149,91 @@ app.post('/registro', cryptPass, function (req, res) {
 app.post(
 	"/login",
 	passport.authenticate("local", {
-	  successRedirect: "/api",
-	  failureRedirect: "/api/fail",
+		successRedirect: "/api",
+		failureRedirect: "/api/fail",
 	})
-  );
-  app.all("/api", function (req, res) {
-	app.locals.db
-	.collection('users')
-	.find({ email: req.body.email })
-	.toArray(function (err, data) {
-		console.log(data.length);
-		if (err !== null) {
-			res.send({ mensaje: 'Ha habido un error', contenido: data, error: true });
-		} else {
-			if (data.length > 0) {
-				if (bcrypt.compareSync(req.body.password, data[0].password)) {
-					res.send({ mensaje: 'Logueado correctamente', contenido: data, error: false, login: true });
-				} else {
-					res.send({ mensaje: 'Contraseña incorrecta', contenido: data, error: true, login: false });
-				}
-			} else {
-				res.send({ mensaje: 'El usuario no existe', error: true, login: false });
-			}
-		}
-	});
+);
+app.all("/api/fail", function (err, res,) {
+	res.send({ logged: false, mensaje: "Conexión rechazada: el email o la contraseña son incorrectos", err: true  });
 });
-  
-  app.all("/api/fail", function (req, res) {
-	res.status(401).send({ logged: false, mensaje: "Acceso denegado api/fail" });
-  });
-  app.get('/prueba', function(req,res){
-	  req.isAuthenticated()
-	  ? res.send({mensaje: "todo correcto, info sensible"}):
-	  res.send({mensaje: "necesitas logearte. Denegado"})
-  })
- 
-// ----------------------- LOGIN  VÍCTOR-------------------------------
 
-/* app.post('/login', function (req, res) {
-	app.locals.db
-		.collection('users')
-		.find({ email: req.body.email })
-		.toArray(function (err, data) {
-			console.log(data.length);
-			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error', contenido: data, error: true });
-			} else {
-				if (data.length > 0) {
-					if (bcrypt.compareSync(req.body.password, data[0].password)) {
-						res.send({ mensaje: 'Logueado correctamente', contenido: data, error: false, login: true });
-					} else {
-						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, error: true, login: false });
-					}
-				} else {
-					res.send({ mensaje: 'El usuario no existe', error: true, login: false });
-				}
-			}
-		});
+
+app.all("/api", function (req, res) {
+	// Utilizar .all como verbo => Las redirecciones desde un cliente Rest las ejecuta en POST, desde navegador en GET
+	res.send({ logged: true, mensaje: "Login correcto", user: req.user });
 });
- */
+
+app.post("/logout", function (req, res) {
+	req.logOut();
+	res.send({ err: false, mensaje: "Logout Correcto" });
+});
+
+// ----------------------- CONTACT  VÍCTOR-------------------------------
+
 app.post('/contact/info', function (req, res) {
 	app.locals.db.collection('contact').insertOne(req.body, function (err, data, mensaje) {
 		err ? res.send({ mensaje: 'Ha habido un error al enviar la información, por favor, vuelve a intentarlo', error: true, contenido: err }) : res.send({ mensaje: 'Mensaje recibido correctamente. Muchas gracias por confiar en nosotros, intentaremos resolver tu incidencia lo antes posible', error: false, contenido: data });
 	});
 });
 
-function cryptPass(req, res, next) {
-	let usuario = req.body;
-	usuario.password = bcrypt.hashSync(usuario.password, 10);
-	req.body = usuario;
-	next();
-}
 app.listen(port, function (err) {
 	err
 		? console.log("🔴 Servidor fallido")
 		: console.log("🟢 Servidor a la escucha en el puerto:" + port);
 });
+// ------------------- FUNCIONES CRYPTO PASSWORD -------------------------
 
- // CÓDIGO SOBRANTE
-
-/* app.delete('/borrar', function (req, res) {
-	let username = req.body.userName;
-	app.locals.db
-		.collection('users')
-		.find({ userName: username })
-		.toArray(function (err, data) {
-			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error' });
-			} else {
-				console.log(data);
-				if (data.length > 0) {
-					if (bcrypt.compareSync(req.body.password, data[0].password)) {
-						let db = app.locals.db;
-						db.collection('users').deleteOne({ userName: username }, function (err, data) {
-							if (err !== null) {
-								res.send({ mensaje: 'Error al borrar al usuario', contenido: data });
-							} else {
-								res.send({ mensaje: 'Usuario borrado correctamente', contenido: data });
-							}
-						});
-					} else {
-						res.send({ mensaje: 'Contraseña incorrecta' });
-					}
-				} else {
-					res.send({ mensaje: 'El usuario no existe' });
-				}
-			}
-		});
-});
-
-app.put('/editar', function (req, res) {
-	let username = req.body.userName;
-	let newUserName = req.body.newUserName;
-	app.locals.db
-		.collection('users')
-		.find({ userName: username })
-		.toArray(function (err, data) {
-			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error', contenido: data });
-			} else {
-				console.log(data);
-				if (data.length > 0) {
-					if (bcrypt.compareSync(req.body.password, data[0].password)) {
-						app.locals.db
-							.collection('users')
-							.updateOne(
-								{ userName: username },
-								{ $set: { userName: newUserName } },
-								function (err, data) {
-									if (err !== null) {
-										res.send({ mensaje: 'Error al modificar al usuario', contenido: data });
-									} else {
-										res.send({ mensaje: 'Usuario modificado correctamente', contenido: data });
-									}
-								}
-							);
-					} else {
-						res.send({ mensaje: 'Contraseña incorrecta', contenido: data });
-					}
-				} else {
-					res.send({ mensaje: 'El usuario no existe', contenido: data });
-				}
-			}
-		});
-}); */
-
-// ------------------------------------ Código de Rafa -----------------------
-/*
-const express = require("express");
-const app = express();
-let puerto = process.env.PORT || 3000;
-
-const mongodb = require("mongodb");
-let MongoClient = mongodb.MongoClient;
-let db;
-
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-app.use(
-  session({
-	secret: "patata", //secreto de la sesion (se puede hacer dinámico)
-	resave: false, //Evita el reseteo de la sesión con cada llamada
-	saveUninitialized: false, //Evita crear sesiones vacías
-	// cookie: { maxAge: 60000 }
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-MongoClient.connect(
-  "mongodb://127.0.0.1:27017",
-  { useUnifiedTopology: true },
-  function (error, client) {
-	error
-	  ? console.log("🔴 MongoDB no conectado")
-	  : ((db = client.db("prueba")), console.log("🟢 MongoDB conectado"));
-  }
-);
-
-//------------------- Autorización y gestión de sesiones ----------
-
-passport.use(
-  new LocalStrategy(
-	{
-	  usernameField: "email",
-	  passwordField: "password",
-	},
-	function (email, password, done) {
-	  db.collection("users").findOne({ email: email }, function (err, user) {
-		if (err) {
-		  return done(err);
-		}
-		if (!user) {
-		  return done(null, false);
-		}
-		if (user.password !== password) {
-		  return done(null, false);
-		}
-		return done(null, user);
-	  });
-	}
-  )
-);
-
-passport.serializeUser(function (user, done) {
-  done(null, user.email);
-});
-
-passport.deserializeUser(function (email, done) {
-  db.collection("users").findOne({ email: email }, function (err, user) {
-	if (err) {
-	  return done(err);
-	}
-	if (!user) {
-	  return done(null, null);
-	}
-	return done(null, user); //console.log(user)
-  });
-});
-
-//-------------------- LOGIN ------------------------------
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-	successRedirect: "/api",
-	failureRedirect: "/api/fail",
-  })
-);
-
-app.all("/api", function (req, res) {
-  // Utilizar .all como verbo => Las redirecciones desde un cliente Rest las ejecuta en POST, desde navegador en GET
-  res.send({ logged: true, mensaje: "Login correcto" });
-});
-
-app.all("/api/fail", function (req, res) {
-  res.status(401).send({ logged: false, mensaje: "Denegado" });
-});
+/**
+ *
+ * @param {*} password -> Recibe el password a encriptar
+ * @returns -> Objeto con las claves salt y hash resultantes.
  */
-//app
-//  .route("/api")
-//  .get(res.send({ logged: true, mensaje: "Login correcto" }))
-//  .post(res.send({ logged: true, mensaje: "Login correcto" }))
 
-//-------------------- LOGOUT -----------------------------
+function creaPass(password) {
+	var salt = crypto.randomBytes(32).toString("hex");
+	var genHash = crypto
+		.pbkdf2Sync(password, salt, 10000, 64, "sha512")
+		.toString("hex");
 
-/* app.post("/logout", function (req, res) {
-  req.logOut();
-  res.send({ mensaje: "Logout Correcto" });
-});
+	return {
+		salt: salt,
+		hash: genHash,
+	};
+}
 
-//-------------------- RUTAS ------------------------------
+/**
+ *
+ * @param {*} password -> Recibe el password a comprobar
+ * @param {*} hash -> Recibe el hash almacenado a comprobar
+ * @param {*} salt -> Recibe el salt almacenado a comprobar
+ * @returns -> Booleano ( true si es el correcto, false en caso contrario)
+ */
 
-app.post("/signup", function (req, res) {
-  // Aqui es recomendable añadir la encriptacion del password con BCrypt
-  db.collection("users")
-	.find({ email: req.body.email })
-	.toArray(function (err, user) {
-	  if (user.length === 0) {
-		db.collection("users").insertOne(
-		  {
-			email: req.body.email,
-			password: req.body.password,
-		  },
-		  function (err, respuesta) {
+function validoPass(password, hash, salt) {
+	var hashVerify = crypto
+		.pbkdf2Sync(password, salt, 10000, 64, "sha512")
+		.toString("hex");
+	return hash === hashVerify;
+}
+
+/*  app.all("/api", function (req, res) {
+	app.locals.db
+		.collection('users')
+		.find({ email: req.body.email })
+		.toArray(function (err, data) {
 			if (err !== null) {
-			  console.log(err);
-			  res.send({ mensaje: "Ha habido un error: " + err });
+				res.send({ mensaje: 'Ha habido un error al conectar la base de datos', contenido: data, err: true });
 			} else {
-			  res.send({ mensaje: "registrado" });
+				if (data.length > 0) {
+					console.log(data.length)
+					if (validoPass) {
+						res.send({ mensaje: 'Logueado correctamente', contenido: data, err: false, login: true });
+					} else {
+						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, err: true, login: false });
+					}
+				} else {
+					res.send({ mensaje: 'El usuario no existe', err: false, login: false });
+				}
 			}
-		  }
-		);
-	  } else {
-		res.send({ mensaje: "Usuario ya registrado" });
-	  }
-	});
-});
-
-app.get("/prueba", function (req, res) {
-  req.isAuthenticated()
-	? res.send({ mensaje: "Todo correcto: información sensible" })
-	: res.send({ mensaje: "Necesitas logearte. Denegado" });
-});
-
-app.listen(puerto, function (err) {
-  err
-	? console.log("🔴 Servidor fallido")
-	: console.log("🟢 Servidor a la escucha en el puerto:" + puerto);
+		});
 }); */

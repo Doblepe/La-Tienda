@@ -1,7 +1,8 @@
 import {Card, Col, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {removeFromCart, adjustQTY} from '../../src/redux/shopping/shopping-actions'
-import {useState} from 'react'
+import {useState} from 'react';
+
 
 function CartItemComp({itemData, removeFromCart, adjustQTY}){
     const [input, setInput] = useState(itemData.qty)

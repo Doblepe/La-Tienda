@@ -2,6 +2,7 @@ import './App.css';
 import { LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
 import { BrowserRouter, Route } from 'react-router-dom'
 import CartComp from './components/cartComp';
+import "@mdi/font/css/materialdesignicons.min.css";
 function App() {
   return (<BrowserRouter>
     <NavBarComp />

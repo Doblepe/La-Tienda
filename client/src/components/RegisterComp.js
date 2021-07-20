@@ -24,7 +24,7 @@ function register(){
     return (
     console.log(res),
     setFeedback(res),
-    setTimeout(()=>{setFeedback({empty:true})}, 5000))
+    setTimeout(()=>{setFeedback({empty:true})}, 2000) )
 })
 }  
   function showPass() {

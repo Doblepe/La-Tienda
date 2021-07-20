@@ -1,8 +1,9 @@
 import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
+import Axios from "axios";
 
-function LoginComp (props){
+function LoginComp (){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
   const [feedback, setFeedback] = useState({ empty: true });
@@ -15,19 +16,21 @@ function LoginComp (props){
     tipo.type = 'password';
   }}
 function loadingAcc(){
-  fetch('http://localhost:3001/login', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: email,
-    password: password
-  }),
+  Axios({
+    method: "POST",
+    data: {
+      email: email,
+      password: password,
+    },
+    withCredentials: true,
+    url: "http://localhost:3001/login",
+  }).then((res) => {
+    return (
+    console.log(res),
+    setFeedback(res),
+    setTimeout(()=>{setFeedback({empty:true})}, 2000))
 })
-  .then((res) => res.json())
-  .then(function (datos) {
-    setFeedback(datos);
-    setTimeout(()=>{setFeedback({empty:true})}, 5000)
-});}
+}
      
   function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
@@ -86,8 +89,8 @@ return (<Container>
   {feedback.empty ? (
               <h1> </h1>
             ) : (
-              <Alert variant={feedback.error ? "danger" : "success"}>
-                {feedback.mensaje}
+              <Alert variant={feedback.data.err ? "danger" : "success"}>
+                {feedback.data.mensaje}
               </Alert>
             )}
 </Form>   
