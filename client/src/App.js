@@ -1,11 +1,15 @@
 import './App.css';
-import { LandingComp, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
+import { LandingComp, NavBarLogged, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
 import { BrowserRouter, Route } from 'react-router-dom'
 import CartComp from './components/cartComp';
 import "@mdi/font/css/materialdesignicons.min.css";
+import {useState} from 'react';
 function App() {
+  const [login, setLogin] = useState({logged: false})
+  const [feedback, setFeedback] = useState({ empty: true });
+  
   return (<BrowserRouter>
-    <NavBarComp />
+    {login ?  <NavBarComp />: <NavBarLogged setFeedback = {setFeedback} feedback={feedback} login={login} setLogin={setLogin}/> }
     <Route exact path="/">
       <LandingComp />
     </Route>
@@ -13,7 +17,7 @@ function App() {
       <RegisterComp />
     </Route>
     <Route exact path="/login">
-      <LoginComp />
+      <LoginComp  setFeedback = {setFeedback}  feedback={feedback} login={login} setLogin={setLogin}/>
     </Route>
     <Route path="/contacto">
       <ContactComp />

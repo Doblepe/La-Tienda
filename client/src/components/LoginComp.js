@@ -3,11 +3,10 @@ import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import Axios from "axios";
 
-function LoginComp (){
+function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
-  const [feedback, setFeedback] = useState({ empty: true });
- /*  const [login, setLogin] = useState({log:false}) */
+
  function showPass() {
   var tipo = document.getElementById('password');
   if (tipo.type === 'password') {
@@ -27,8 +26,22 @@ function loadingAcc(){
   }).then((res) => {
     return (
     console.log(res),
-    setFeedback(res),
-    setTimeout(()=>{setFeedback({empty:true})}, 2000))
+    props.setLogin(res.data.logged.value),
+    props.setFeedback(res),
+    setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
+})
+}
+const logout = () => {
+  Axios({
+    method: "POST",
+    withCredentials: true,
+    url: "http://localhost:3001/logout",
+  }).then((res) => {
+    return (
+    console.log(res), 
+    (props.setLogin(res)),
+    props.setFeedback(res),
+    setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
 })
 }
      
@@ -86,11 +99,12 @@ return (<Container>
     <Form.Check type="checkbox" label="Check me out" onClick={showPass} />
   </Form.Group>
   <LoadingButton />
-  {feedback.empty ? (
+  <Button variant="light" onClick={logout}>Logout</Button>
+  {props.feedback.empty ? (
               <h1> </h1>
             ) : (
-              <Alert variant={feedback.data.err ? "danger" : "success"}>
-                {feedback.data.mensaje}
+              <Alert variant={props.feedback.data.err ? "danger" : "success"}>
+                {props.feedback.data.mensaje}
               </Alert>
             )}
 </Form>   
@@ -99,4 +113,4 @@ return (<Container>
     </Container>
 )
 }
-export default LoginComp 
+export default (LoginComp)  

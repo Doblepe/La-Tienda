@@ -1,8 +1,38 @@
-import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button, Badge, Alert} from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
+import Axios from "axios";
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
 
-function NavBarComp(props) {
+const mapStateToProps = state => {
+  return{
+    cart: state.shop.cart
+  }
+}
+function NavBarLogged({cart}) {
+const [cartCount, setCartCount] = useState(0);
+/* const [feedback, setFeedback] = useState({ empty: true }); */
+/* const logout = () => {
+  Axios({
+    method: "POST",
+    withCredentials: true,
+    url: "http://localhost:3001/logout",
+  }).then((res) => {
+    return (
+    console.log(res), 
+    (props.setLogin(res)),
+    setFeedback(res),
+    setTimeout(()=>{setFeedback({empty:true})}, 2000))
+})
+} */
+useEffect(() =>{
+  let count = 0;
+  cart.forEach(item => {
+    count += item.qty
+  });
+  setCartCount(count)
+},[cart, cartCount])
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand as={Link} to="/">
@@ -30,8 +60,14 @@ function NavBarComp(props) {
                       style={{ fontSize: 20 }}
                       className="mdi mdi-account"
                     /></Navbar.Brand>
+          <Navbar.Brand as={Link} to="/cart"><span
+                      style={{ fontSize: 20 }}
+                      className="mdi mdi-cart"
+                    /></Navbar.Brand>
+          <Button as={Link} to="/cart" variant="info"><Badge bg="secondary">{cartCount}</Badge>  
+          </Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>)
 }
-export default NavBarComp
+export default connect(mapStateToProps) (NavBarLogged)

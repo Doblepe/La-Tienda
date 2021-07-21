@@ -10,5 +10,6 @@ import MaleCollectionComp from "./MaleCollectionComp";
 import KidCollectionComp from "./KidCollectionComp";
 import LandingComp from "./LandingComp";
 import CartComp from './cartComp'
+import NavBarLogged from "./Nav-bar-logged";
 
-export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp,FemaleCollectionComp, MaleCollectionComp, KidCollectionComp,LandingComp, CartComp}
+export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp,FemaleCollectionComp, MaleCollectionComp, KidCollectionComp,LandingComp, CartComp, NavBarLogged}
