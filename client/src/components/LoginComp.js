@@ -99,7 +99,6 @@ return (<Container>
     <Form.Check type="checkbox" label="Check me out" onClick={showPass} />
   </Form.Group>
   <LoadingButton />
-  <Button variant="light" onClick={logout}>Logout</Button>
   {props.feedback.empty ? (
               <h1> </h1>
             ) : (
@@ -109,6 +108,12 @@ return (<Container>
             )}
 </Form>   
     </Col>
+    </Row>
+    <Row className="justify-content-md-center">
+      <Col xs lg="6">
+      <hr></hr>
+      <Button variant="danger" onClick={logout}>Abandonar sesión</Button>
+      </Col>
     </Row>
     </Container>
 )

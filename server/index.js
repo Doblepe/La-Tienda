@@ -73,7 +73,7 @@ passport.use(
 					return done(null, false);
 				}
 				if (!validoPass(password, user.password.hash, user.password.salt)) {
-					return done(null, false, arg);
+					return done(null, false);
 				}
 				return done(null, user);
 			});
@@ -164,8 +164,8 @@ app.all("/api", function (req, res) {
 });
 
 app.post("/logout", function (req, res) {
+	res.send({ logged: false, err: false, mensaje: "Logout Correcto" });
 	req.logOut();
-	res.send({ err: false, mensaje: "Logout Correcto" });
 });
 
 // ----------------------- CONTACT  VÍCTOR-------------------------------
