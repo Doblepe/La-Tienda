@@ -1,6 +1,6 @@
-import { Navbar, Nav, NavDropdown, Button, Badge, Alert} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button, Badge} from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
-import Axios from "axios";
+
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -12,20 +12,7 @@ const mapStateToProps = state => {
 }
 function NavBarLogged({cart}) {
 const [cartCount, setCartCount] = useState(0);
-/* const [feedback, setFeedback] = useState({ empty: true }); */
-/* const logout = () => {
-  Axios({
-    method: "POST",
-    withCredentials: true,
-    url: "http://localhost:3001/logout",
-  }).then((res) => {
-    return (
-    console.log(res), 
-    (props.setLogin(res)),
-    setFeedback(res),
-    setTimeout(()=>{setFeedback({empty:true})}, 2000))
-})
-} */
+
 useEffect(() =>{
   let count = 0;
   cart.forEach(item => {

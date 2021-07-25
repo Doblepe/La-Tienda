@@ -2,11 +2,12 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import Axios from "axios";
+import ContactComp from './Contactcomp';
+
 
 function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
-
  function showPass() {
   var tipo = document.getElementById('password');
   if (tipo.type === 'password') {
@@ -25,12 +26,12 @@ function loadingAcc(){
     url: "http://localhost:3001/login",
   }).then((res) => {
     return (
-    console.log(res),
-    props.setLogin(res.data.logged.value),
+    props.setLogin(res.data.logged),
     props.setFeedback(res),
     setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
 })
 }
+
 const logout = () => {
   Axios({
     method: "POST",
@@ -39,19 +40,15 @@ const logout = () => {
   }).then((res) => {
     return (
     console.log(res), 
-    (props.setLogin(res)),
-    props.setFeedback(res),
-    setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
+    props.setLogin(false),
+    props.setUser(''))
 })
-}
-     
+}  
   function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
-  
   function LoadingButton() {
     const [isLoading, setLoading] = useState(false);
-  
     useEffect(() => {
       if (isLoading) {
         simulateNetworkRequest().then(() => {
@@ -61,7 +58,6 @@ const logout = () => {
     }, [isLoading]);
   
     const handleClick = () => setLoading(true);
-  
     return (
       <Button
         variant="primary"
@@ -74,6 +70,14 @@ const logout = () => {
   }
 
 return (<Container>
+    
+    {props.login ? (
+    <Row className="justify-content-md-center">
+    <h1>Bienvenido {props.user}</h1>
+    <hr></hr>
+    <ContactComp/>
+    <Button variant="danger" onClick={logout}>Abandonar sesión</Button>
+    </Row>) :(
     <Row className="justify-content-md-center">
     <Col xs lg="6">
         <h1>¿Ya tienes cuenta?</h1>
@@ -102,19 +106,13 @@ return (<Container>
   {props.feedback.empty ? (
               <h1> </h1>
             ) : (
-              <Alert variant={props.feedback.data.err ? "danger" : "success"}>
+              <Alert variant={props.feedback.err ? "danger" : "success"}>
                 {props.feedback.data.mensaje}
               </Alert>
             )}
 </Form>   
     </Col>
-    </Row>
-    <Row className="justify-content-md-center">
-      <Col xs lg="6">
-      <hr></hr>
-      <Button variant="danger" onClick={logout}>Abandonar sesión</Button>
-      </Col>
-    </Row>
+    </Row>) }
     </Container>
 )
 }

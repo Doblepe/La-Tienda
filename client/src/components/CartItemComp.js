@@ -21,7 +21,7 @@ function CartItemComp({itemData, removeFromCart, adjustQTY}){
          </Button>
          <Col>
              <label htmlFor="qty">Qty</label>
-             <input className="input" min="1" type="number" id="qty" name="qty" value={input} onChange={onChangeHandler}/>
+             <input min="1" type="number" id="qty" name="qty" value={input} size="10" onChange={onChangeHandler}/>
             </Col>
         </Card.Body>
         </Card>
