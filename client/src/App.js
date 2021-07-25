@@ -3,13 +3,21 @@ import { LandingComp, NavBarLogged, LoginComp, NavBarComp, RegisterComp, Product
 import { BrowserRouter, Route } from 'react-router-dom'
 import CartComp from './components/cartComp';
 import "@mdi/font/css/materialdesignicons.min.css";
-import {useState} from 'react';
+import { useState } from 'react';
+import StripeContainer from './StripeContainer';
+
+
+// Make sure to call loadStripe outside of a component’s render to avoid
+// recreating the Stripe object on every render.
+// loadStripe is initialized with your real test publishable API key.
+
 function App() {
-  const [login, setLogin] = useState({logged: false})
+  const [login, setLogin] = useState(false)
   const [feedback, setFeedback] = useState({ empty: true });
-  
+  const [user, setUser] = useState('');
+
   return (<BrowserRouter>
-    {login ?  <NavBarComp />: <NavBarLogged setFeedback = {setFeedback} feedback={feedback} login={login} setLogin={setLogin}/> }
+    {login ? <NavBarLogged /> : <NavBarComp />}
     <Route exact path="/">
       <LandingComp />
     </Route>
@@ -17,7 +25,7 @@ function App() {
       <RegisterComp />
     </Route>
     <Route exact path="/login">
-      <LoginComp  setFeedback = {setFeedback}  feedback={feedback} login={login} setLogin={setLogin}/>
+      <LoginComp setFeedback={setFeedback} feedback={feedback} login={login} setLogin={setLogin} setUser={setUser} user={user} />
     </Route>
     <Route path="/contacto">
       <ContactComp />
@@ -35,10 +43,16 @@ function App() {
       <KidCollectionComp />
     </Route>
     <Route path="/cart">
-      <CartComp/>
+      <CartComp />
+    </Route>
+    <Route path="/payment">
+     <StripeContainer />        
     </Route>
     <FooterComp />
   </BrowserRouter>);
 }
 
 export default App;
+
+
+// ------------ 
