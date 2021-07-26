@@ -74,7 +74,18 @@ function PaymentForm({cart}) {
         <Container>
         <form onSubmit={handleSubmit}>
             <Row>
+            <Col xs ={8} md={10}>
+                    <Row>
+                        {cart.map(item => (
+                            <CartItem key={item.id} itemData={item} />
+                        ))}
+                    </Row>
+                </Col>
+            </Row> 
+            <Row>   
                 <Col>
+                        <h5>TOTAL: {totalItems} productos</h5>
+                        <h5>TOTAL: {totalPrice} Euros</h5>
                 <fieldset className="FormGroup">
                 <div className="FormRow">
                     <CardElement options={CARD_OPTIONS}/>
