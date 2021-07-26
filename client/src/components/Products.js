@@ -11,7 +11,7 @@ const mapStateToProps = state =>{
 }
 function Products({products}){ 
   return  ( <Container fluid>
-  <Row>
+  <Row className="justify-content-md-center">
   {products.map((prod) => {return(<Product key={prod.id}productData={prod}/>)})}
   </Row>
 </Container>

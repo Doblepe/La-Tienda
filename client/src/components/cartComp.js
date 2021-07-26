@@ -17,24 +17,33 @@ function CartComp({ cart }) {
         });
     }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems])
     return (
-        
-        <Container className="MainCont">
+
+        <Container fluid className="Card-container">
             <Row>
-                <Col xs ={8} md={10}>
-                    <Row>
-                        {cart.map(item => (
-                            <CartItem key={item.id} itemData={item} />
-                        ))}
-                    </Row>
-                </Col>
-                <Col xs={12} md={2} className="finalCart">
-                    <h5>Productos en el carrito</h5>
-                    <div>
-                        <span>TOTAL: ({totalItems} productos)</span>
-                        <span>TOTAL: ({totalPrice} Euros)</span>
-                    </div>
-                    <Button variant="success" as={Link} to="/payment" >Realizar Pedido</Button>
-                </Col>
+                {cart.length === 0 ?
+                    <Col>
+                        <h5>Todavía no tienes ningún producto en tu carrito. Vuelve a la tienda y añade cuantos quieras</h5>
+                        <Button variant="info" as={Link} to="/products" >Volver a la tienda</Button>
+                    </Col> :
+                    <Col>
+                        <Col xs={8} md={10}>
+                            <Row>
+                                {cart.map(item => (
+                                    <CartItem key={item.id} itemData={item} />
+                                ))}
+                            </Row>
+                        </Col>
+                        <hr></hr>
+                        <Col xs={12} md={6} className="finalCart">
+                            <h5>Productos en el carrito</h5>
+                            <div>
+                                <span>TOTAL: ({totalItems} productos)</span>
+                                <span>TOTAL: ({totalPrice} Euros)</span>
+                            </div>
+                            <Button variant="success" as={Link} to="/payment" >Realizar Pedido</Button>
+                        </Col>
+                    </Col>}
+
             </Row>
         </Container>
     )

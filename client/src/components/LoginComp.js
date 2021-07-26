@@ -27,7 +27,7 @@ function loadingAcc(){
   }).then((res) => {
     return (
     props.setLogin(res.data.logged),
-    props.setFeedback(res),
+    props.setUser(res.data.nombre),
     setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
 })
 }
