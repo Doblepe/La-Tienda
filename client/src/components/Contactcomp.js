@@ -63,7 +63,7 @@ function ContactComp(){
 
       // ------------ SEND INFO MSG ------------
       function sendInfo(){
-            fetch('http://localhost:3001/contact/info', {
+            fetch( process.env.PORT +'/contact/info', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

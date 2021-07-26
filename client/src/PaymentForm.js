@@ -53,7 +53,7 @@ function PaymentForm({ cart }) {
     }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems])
 
     function saveAddress() {
-        fetch('http://localhost:3001/address/info', {
+        fetch(process.env.PORT + '/address/info', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -23,7 +23,7 @@ function loadingAcc(){
       password: password,
     },
     withCredentials: true,
-    url: "http://localhost:3001/login",
+    url: process.env.PORT + "/login",
   }).then((res) => {
     return (
     props.setLogin(res.data.logged),
@@ -36,7 +36,7 @@ const logout = () => {
   Axios({
     method: "POST",
     withCredentials: true,
-    url: "http://localhost:3001/logout",
+    url: process.env.PORT + "/logout",
   }).then((res) => {
     return (
     console.log(res), 
