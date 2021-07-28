@@ -1,5 +1,10 @@
 .full-app{
 	font-family:sans-serif;
+	margin-right: auto;
+	margin-left: auto;
+}
+.font-wheight {
+	font-family:fantasy;
 }
 .footer{
   margin-top: 20px;
@@ -7,6 +12,8 @@
   color: hsl(0, 0%, 100%);
   list-style-type: none;
   text-decoration: none;
+  text-align: center;
+  padding-bottom: 3rem;
 }
 .footer ul {text-decoration: none;
   list-style-type: none;
@@ -20,6 +27,7 @@
 }
 footer img {
   justify-content: center;
+  
 }
 .jumbo{
   background-image: url('../src/assets/jumbo.jpg');
@@ -90,19 +98,21 @@ button:active {
 	box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
 	transform: scale(0.99);
 }
-
-.App {
-	margin-left: 25%;
-	margin-top: 5%;
-	margin-right: 25%;
-}
-
-
 .Card-container{
 	justify-content: center;
 	align-content: center;
 	background-color:#dfe2ec;
-	margin: 25px;
+	margin-top: 1rem;
 	padding: 20px;
 	width: 95%;
+}
+.payment-cards{
+	margin: 1rem;
+	justify-content:end;
+	padding: auto;
+}
+.products-cards {
+	margin: 1rem;
+	align-content: center;
+	padding: auto;
 }

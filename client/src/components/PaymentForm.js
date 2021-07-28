@@ -2,8 +2,8 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
-import CartItem from './components/CartItemComp'
 import { connect } from 'react-redux'
+import PaymentItem from "./Payment-item"
 
 const CARD_OPTIONS = {
     iconStyle: "solid",
@@ -24,7 +24,6 @@ const CARD_OPTIONS = {
         }
     }
 }
-
 function PaymentForm({ cart }) {
     const [success, setSuccess] = useState(false)
     const stripe = useStripe()
@@ -40,7 +39,6 @@ function PaymentForm({ cart }) {
     const [state, setState] = useState('')
     const [PostData, setPostData] = useState('')
     const [feedback, setFeedback] = useState({ empty: true });
-
     useEffect(() => {
         let items = 0;
         let price = 0;
@@ -49,11 +47,12 @@ function PaymentForm({ cart }) {
             price += item.qty * item.price;
             setTotalPrice(price);
             setTotalItems(items);
-        });
+        }); return (totalPrice, totalItems)
     }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems])
+    useEffect(() => { console.log(totalPrice) }, [totalPrice])
 
     function saveAddress() {
-        fetch(process.env.PORT + '/address/info', {
+        fetch('http://localhost:3001/address/info', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -69,10 +68,12 @@ function PaymentForm({ cart }) {
             .then((res) => res.json())
             .then(function (datos) {
                 setFeedback(datos);
-                setTimeout(() => { setFeedback({ empty: true }) }, 5000)
+                setTimeout(() => { setFeedback({ empty: true }) }, 3000)
             })
     }
-    let orderPrice = 24000;
+
+    // let amount = totalPrice  no lo recoge de ninguna de las maneras. Da problemas con las cookies. 
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -83,45 +84,49 @@ function PaymentForm({ cart }) {
             try {
                 const { id } = paymentMethod
                 const response = await axios.post("http://localhost:4000/payment", {
-                    amount: orderPrice,
+                    amount: 12000,
                     id
                 })
 
                 if (response.data.success) {
-                    console.log("Successful payment")
+                    setFeedback("Successful payment")
                     setSuccess(true)
                 }
 
             } catch (error) {
-                console.log("Error", error)
+                setFeedback("Error", error);
+                setTimeout(() => { setFeedback({ empty: true }) }, 3000)
+                
             }
         } else {
-            console.log(error.message)
+            setFeedback(error.message);
+            setTimeout(() => { setFeedback({ empty: true }) }, 3000)
         }
     }
     return (
-        <>
+        <Container fluid className="Card-container">
+            
             {!success ?
-                <Container fluid className="Card-container">
-                    <h3>Estás a punto de finalizar tu compra, asegura los detalles:</h3>
-                    <h5>TOTAL: {totalItems} productos por un valor de {totalPrice} euros</h5>
-                    
+                <>
+                    <h2 className="font-wheight">Estás a punto de finalizar tu compra, asegura los detalles:</h2>
+                    <h4 className="font-wheight">TOTAL: {totalItems} productos por un valor de {totalPrice} euros</h4>
                     <form onSubmit={handleSubmit}>
                         <Row>
-                            <Col xs={8} md={10}>
+                            <Col>
+                            <Col xs md={12}>
                                 <Row>
                                     {cart.map(item => (
-                                        <CartItem key={item.id} itemData={item} />
+                                        <PaymentItem key={item.id} itemData={item} />
                                     ))}
                                 </Row>
                             </Col>
-
+                            </Col>
                         </Row>
                         <hr></hr>
                         <div className="Card-container">
                             <Row>
                                 <Col>
-                                    <h5>Dirección de envío</h5>
+                                    <h3 className="font-wheight">Dirección de envío</h3>
                                     <hr></hr>
                                     <Form>
                                         <Row>
@@ -153,8 +158,7 @@ function PaymentForm({ cart }) {
                                         </Row>
                                         <Row>
                                             <Col>
-
-                                                <Button className="buy-button" onClick={() => saveAddress()}>Guardar dirección</Button>
+                                                <Button variant="info" onClick={() => saveAddress()}>Guardar dirección</Button>
                                                 {feedback.empty ? (
                                                     <h1> </h1>
                                                 ) : (
@@ -180,26 +184,28 @@ function PaymentForm({ cart }) {
                             </Row>
                         </div>
                     </form>
-                </Container>
+                </>
                 :
-                <Container>
-                    <Row className="Card-container">
-                        <Col>
-                            <h5>Pago realizado correctamente. Recibirás tu paquete entre 3 y 5 días laborales</h5>
-                            <h5>GRACIAS POR CONFIAR EN TU TIENDA</h5>
-                        </Col>
-                    </Row>
-                </Container>
+                <Row className="Card-container">
+                    <Col>
+                        <h4 className="font-wheight">😎😎GRACIAS POR CONFIAR EN TU TIENDA 😎😎</h4>
+                        <hr></hr>
+                        <h5 className="font-wheight">Pago realizado correctamente 👍 </h5>
+                        <h5 className="font-wheight">  Recibirás tu paquete dentro de 3 a 5 días laborales 🎁🎁 </h5>
+                    </Col>
+                </Row>
+
 
             }
 
-        </>
+        </Container>
     )
 }
 const mapStateToProps = state => {
     return {
+        products: state.shop.products,
         cart: state.shop.cart
     }
-    
 }
+
 export default connect(mapStateToProps)(PaymentForm)

@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 require("dotenv").config()
+// Set your secret key. Remember to switch to your live secret key in production.
+// See your keys here: https://dashboard.stripe.com/apikeys
 const stripe = require("stripe")(process.env.SECRET_KEY)
 const bodyParser = require("body-parser")
 const cors = require("cors")
@@ -22,13 +24,15 @@ app.post("/payment", cors(), async (req, res) => {
 		})
 		console.log("Payment", payment)
 		res.json({
-			message: "Payment successful",
-			success: true
+			mensaje: "Pago correcto",
+			success: true,
+			error: false
 		})
 	} catch (error) {
 		console.log("Error", error)
 		res.json({
-			message: "Payment failed",
+			error: true,
+			mensaje: "Algo ha fallado",
 			success: false
 		})
 	}

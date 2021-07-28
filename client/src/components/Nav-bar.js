@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function NavBarComp(props) {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="font-wheight" bg="light" expand="lg">
       <Navbar.Brand as={Link} to="/">
         <img
           src={logo}

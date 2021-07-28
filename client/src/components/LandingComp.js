@@ -4,7 +4,7 @@ import maleCard from "../assets/male-card.jpg"
 import femaleCard from "../assets/female-card.jpg"
 import kidCard from "../assets/kid-card.jpg"
 
-import CarouselComp from './Carousel-Comp'
+
 function LandingComp() {
   return (
     <Container fluid>
@@ -12,7 +12,7 @@ function LandingComp() {
         {/* ------------------------------------JUMBO -------------------------------- */}
         <Col xs={12} md={12}>
           <Jumbotron className="jumbo">
-            <h1><strong>Bienvenidos</strong></h1>
+            <h1 className="font-wheight"><strong>Bienvenidos</strong></h1>
             <h5>
               Aprovecha las rebajas de verano y cambia tu look para por mucho menos de lo que te esperas
             </h5>
@@ -22,22 +22,15 @@ function LandingComp() {
           </Jumbotron>
         </Col>
       </Row>
-      {/* ------------------------------------CAROUSEL -------------------------------- */}
-      <Row>
-        <Col xs={12} md={12}>
-          <h3><strong>Lo estabas buscando</strong></h3>
-          <CarouselComp />
-        </Col>
-      </Row>
       {/* ------------------------------------CAJAS DE TARJETAS -------------------------------- */}
       <Row>
         <Col xs={12} md={12}>
-          <h1><strong>Oferta especial</strong></h1>
+          <h1 className="font-wheight"><strong>Oferta especial</strong></h1>
           <CardGroup>
             <Card>
               <Card.Img variant="top" src={maleCard} />
               <Card.Body>
-                <Card.Title>Hombres</Card.Title>
+                <Card.Title className="font-wheight">Hombres</Card.Title>
                 <Card.Text>
                   This is a wider card with supporting text below as a natural lead-in to
                   additional content. This content is a little bit longer.
@@ -51,7 +44,7 @@ function LandingComp() {
             <Card>
               <Card.Img variant="top" src={femaleCard} />
               <Card.Body>
-                <Card.Title>Mujeres</Card.Title>
+                <Card.Title className="font-wheight"> Mujeres</Card.Title>
                 <Card.Text>
                   This card has supporting text below as a natural lead-in to additional
                   content.{' '}
@@ -65,7 +58,7 @@ function LandingComp() {
             <Card>
               <Card.Img variant="top" src={kidCard}  />
               <Card.Body>
-                <Card.Title>Los niños</Card.Title>
+                <Card.Title className="font-wheight">Los niños</Card.Title>
                 <Card.Text>
                   This is a wider card with supporting text below as a natural lead-in to
                 </Card.Text>

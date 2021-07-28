@@ -4,11 +4,8 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require('cookie-parser')
 const secreto = "patata";
 const crypto = require("crypto");
-// Set your secret key. Remember to switch to your live secret key in production.
-// See your keys here: https://dashboard.stripe.com/apikeys
-const stripe = require("stripe")(process.env.SECRET_KEY);
-const contact = require('./routes/contact');
-const address = require('./routes/address')
+/* const contact = require('./routes/contact');
+const address = require('./routes/address') */
 
 require('dotenv').config();
 const app = express();
@@ -173,9 +170,20 @@ app.post("/logout", function (req, res) {
 });
 
 // ----------------------- CONTACT  VÍCTOR-------------------------------
-app.use('/contact/info', contact);
-
-app.use('/address/info', address);
+/* app.use('/contact/info', contact); */
+app.post('/contact/info', function (req, res) {
+	app.locals.db.collection('contact').insertOne(req.body, function (err, data, mensaje) {
+		err ? res.send({ mensaje: '😅 Ha habido un error al enviar la información, por favor, vuelve a intentarlo ', error: true, contenido: err }) : res.send({  mensaje:'Mensaje recibido correctamente. Muchas gracias por confiar en nosotros, intentaremos resolver tu incidencia lo antes posible 😉', error: false, contenido: data });
+	});
+}); 
+/* 
+app.use('/contact/info', contact); */
+/* app.use('/address/info', address); */
+app.post('/address/info', function (req, res) {
+	app.locals.db.collection('address').insertOne(req.body, function (err, data, mensaje) {
+		err ? res.send({ mensaje: 'Ha habido un error al enviar la información, por favor, vuelve a intentarlo', error: true, contenido: err }) : res.send({  mensaje:'Hemos recogido tu dirección.  Muchas gracias por confiar en nosotros🥰 ', error: false, contenido: data });
+	});
+});
 
 app.listen(port, function (err) {
 	err

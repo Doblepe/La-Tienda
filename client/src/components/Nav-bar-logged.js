@@ -1,4 +1,4 @@
-import { Navbar, Nav, NavDropdown, Button, Badge} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import logo from '../assets/IMG_8178-min.jpg'
 
 import { Link } from 'react-router-dom'
@@ -21,7 +21,7 @@ useEffect(() =>{
   setCartCount(count)
 },[cart, cartCount])
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="font-wheight" bg="light" expand="lg">
       <Navbar.Brand as={Link} to="/">
         <img
           src={logo}
@@ -51,8 +51,8 @@ useEffect(() =>{
                       style={{ fontSize: 20 }}
                       className="mdi mdi-cart"
                     /></Navbar.Brand>
-          <Button as={Link} to="/cart" variant="info"><Badge bg="secondary">{cartCount}</Badge>  
-          </Button>
+         {/*  <Button as={Link} to="/cart" variant="info"><Badge bg="secondary">{cartCount}</Badge>  
+          </Button> */}
     </Navbar>)
 }
 export default connect(mapStateToProps) (NavBarLogged)

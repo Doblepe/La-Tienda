@@ -63,7 +63,7 @@ function ContactComp(){
 
       // ------------ SEND INFO MSG ------------
       function sendInfo(){
-            fetch( process.env.PORT +'/contact/info', {
+            fetch( 'http://localhost:3001/contact/info', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -79,12 +79,13 @@ function ContactComp(){
                     setTimeout(()=>{setFeedback({empty:true})}, 5000)
                 })}
 
-    return (<Container>
+    return (<Container className="Card-container">
     <Row className="justify-content-md-center">
     <Col xs ="8" lg="10">
-        <h5>Si tienes cualquier duda sobre tu compra o consulta sobre nuestras tiendas, puedes contactar con nosotros como prefieras:</h5>
+        <h5 className="font-wheight">Si tienes cualquier duda sobre tu compra o consulta sobre nuestras tiendas, puedes contactar con nosotros como prefieras:</h5>
         <hr/>
-        <div>
+    <Row>
+        <Col>
         <img
         src={face}
         width="45"
@@ -93,8 +94,10 @@ function ContactComp(){
         alt=""
 />
  <p>Escríbenos un mensaje directo a nuestro perfil de Facebook <a href="https://es-es.facebook.com/">facebook.com/LaTienda</a></p>
-        </div>
-        <div>
+        </Col>
+        </Row>
+        <Row>
+        <Col>
         <img
         src={twitter}
         width="45"
@@ -102,7 +105,8 @@ function ContactComp(){
         className="d-inline-block align-top"
         alt=""
       /> <p>Escríbenos un mensaje directo a nuestro perfil de Twitter <a href="https://twitter.com/">twitter.com/LaTienda</a></p>
-        </div>
+        </Col>
+        </Row>
         <hr/>
         <h5>También puedes enviarnos tu consulta a través de este formulario:</h5>
     </Col>

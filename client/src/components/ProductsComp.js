@@ -1,16 +1,21 @@
-import { Row,Container } from 'react-bootstrap';
+import { Row, Container, Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 import Product from './Product';
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
-      products: state.shop.products,
+        products: state.shop.products,
     }
 }
-function ProductsComp({products}) {
-    return (<Container>
+function ProductsComp({ products }) {
+    /*   */
+    return (<Container fluid className="Card-container">
         <Row>
-        {products.map((prod) => {return(<Product key={prod.id}productData={prod}/>)})}
+            <Col xs md={12}>
+                <Row>
+                    {products.map((prod) => { return (<Product key={prod.id} productData={prod} />) })}
+                </Row>
+            </Col>
         </Row>
     </Container>)
 }

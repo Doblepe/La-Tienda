@@ -4,8 +4,8 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import CartComp from './components/cartComp';
 import "@mdi/font/css/materialdesignicons.min.css";
 import { useState } from 'react';
-import StripeContainer from './StripeContainer';
-import { Container } from 'react-bootstrap'
+import StripeContainer from './components/StripeContainer';
+require('dotenv').config()
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   const [user, setUser] = useState('');
 
   return (
-    <Container fluid className="full-app">
+    <div className="full-app">
       <BrowserRouter>
         {login ? <NavBarLogged /> : <NavBarComp />}
         <Route exact path="/">
@@ -49,7 +49,7 @@ function App() {
         </Route>
         <FooterComp />
       </BrowserRouter>
-    </Container>);
+    </div>);
 }
 
 export default App;

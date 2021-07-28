@@ -8,6 +8,7 @@ import ContactComp from './Contactcomp';
 function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
+  const baseURL = process.env.REACT_APP_API
  function showPass() {
   var tipo = document.getElementById('password');
   if (tipo.type === 'password') {
@@ -16,6 +17,7 @@ function LoginComp (props){
     tipo.type = 'password';
   }}
 function loadingAcc(){
+  console.log(`${baseURL}/login`)
   Axios({
     method: "POST",
     data: {
@@ -23,11 +25,12 @@ function loadingAcc(){
       password: password,
     },
     withCredentials: true,
-    url: process.env.PORT + "/login",
+    url:`http://localhost:3001/login`,
   }).then((res) => {
     return (
+    console.log(res),
     props.setLogin(res.data.logged),
-    props.setUser(res.data.nombre),
+    props.setUser(res.data.user.nombre),
     setTimeout(()=>{props.setFeedback({empty:true})}, 2000))
 })
 }
@@ -36,7 +39,7 @@ const logout = () => {
   Axios({
     method: "POST",
     withCredentials: true,
-    url: process.env.PORT + "/logout",
+    url: "http://localhost:3001/logout",
   }).then((res) => {
     return (
     console.log(res), 
@@ -68,20 +71,19 @@ const logout = () => {
       </Button>
     );
   }
-
-return (<Container>
-    
+return (<Container className="Card-container">
     {props.login ? (
     <Row className="justify-content-md-center">
-    <h1>Bienvenido {props.user}</h1>
+      <Col xs ="8" lg="10"> <h1 className="font-wheight">Bienvenido {props.user}</h1></Col>
     <hr></hr>
     <ContactComp/>
-    <Button variant="danger" onClick={logout}>Abandonar sesión</Button>
+    <Col><Button variant="danger" onClick={logout}>Abandonar sesión</Button></Col>
+    
     </Row>) :(
     <Row className="justify-content-md-center">
     <Col xs lg="6">
-        <h1>¿Ya tienes cuenta?</h1>
-        <p>Inicia sesión ahora para aprovecharte de todos los beneficios de la cuenta de cliente de MediaMarkt</p>
+        <h1 className="font-wheight">¿Ya tienes cuenta?</h1>
+        <p>Inicia sesión ahora para aprovecharte de todos los beneficios de la cuenta de cliente en Tu Tienda</p>
         <p>Si todavía no eres cliente regístrate de manera gratuita en el siguiente enlace: </p>
         <Link to="/registro">
           <p>Crear cuenta</p>
@@ -106,7 +108,7 @@ return (<Container>
   {props.feedback.empty ? (
               <h1> </h1>
             ) : (
-              <Alert variant={props.feedback.err ? "danger" : "success"}>
+              <Alert className="font-wheight" variant={props.feedback.err ? "danger" : "success"}>
                 {props.feedback.data.mensaje}
               </Alert>
             )}
