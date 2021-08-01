@@ -4,6 +4,9 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require('cookie-parser')
 const secreto = "patata";
 const crypto = require("crypto");
+/* const contact = require('./routes/contact');
+const address = require('./routes/address') */
+
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3001
@@ -53,10 +56,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+
 let MongoClient = mongodb.MongoClient;
 MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
 	err ? console.log(err) : (app.locals.db = client.db("store"), console.log('Mongo conectado'));
 });
+
 //------------------- Autorización y gestión de sesiones ----------
 passport.use(
 	new LocalStrategy(
@@ -146,33 +151,37 @@ app.post("/registro", function (req, res) {
 		});
 });
 
-app.post(
-	"/login",
+app.post("/login",
 	passport.authenticate("local", {
 		successRedirect: "/api",
 		failureRedirect: "/api/fail",
 	})
 );
 app.all("/api/fail", function (err, res,) {
-	res.send({ logged: false, mensaje: "Conexión rechazada: el email o la contraseña son incorrectos", err: true  });
+	res.send({ logged: false, mensaje: "Conexión rechazada: el email o la contraseña son incorrectos", err: true });
 });
-
-
 app.all("/api", function (req, res) {
 	// Utilizar .all como verbo => Las redirecciones desde un cliente Rest las ejecuta en POST, desde navegador en GET
 	res.send({ logged: true, mensaje: "Login correcto", user: req.user });
 });
-
 app.post("/logout", function (req, res) {
-	res.send({ logged: false, err: false, mensaje: "Logout Correcto" });
+	res.send({ logged: null, err: false, mensaje: "Logout Correcto", nombre: null });
 	req.logOut();
 });
 
 // ----------------------- CONTACT  VÍCTOR-------------------------------
-
+/* app.use('/contact/info', contact); */
 app.post('/contact/info', function (req, res) {
 	app.locals.db.collection('contact').insertOne(req.body, function (err, data, mensaje) {
-		err ? res.send({ mensaje: 'Ha habido un error al enviar la información, por favor, vuelve a intentarlo', error: true, contenido: err }) : res.send({ mensaje: 'Mensaje recibido correctamente. Muchas gracias por confiar en nosotros, intentaremos resolver tu incidencia lo antes posible', error: false, contenido: data });
+		err ? res.send({ mensaje: '😅 Ha habido un error al enviar la información, por favor, vuelve a intentarlo ', error: true, contenido: err }) : res.send({  mensaje:'Mensaje recibido correctamente. Muchas gracias por confiar en nosotros, intentaremos resolver tu incidencia lo antes posible 😉', error: false, contenido: data });
+	});
+}); 
+/* 
+app.use('/contact/info', contact); */
+/* app.use('/address/info', address); */
+app.post('/address/info', function (req, res) {
+	app.locals.db.collection('address').insertOne(req.body, function (err, data, mensaje) {
+		err ? res.send({ mensaje: 'Ha habido un error al enviar la información, por favor, vuelve a intentarlo', error: true, contenido: err }) : res.send({  mensaje:'Hemos recogido tu dirección.  Muchas gracias por confiar en nosotros🥰 ', error: false, contenido: data });
 	});
 });
 
@@ -216,24 +225,3 @@ function validoPass(password, hash, salt) {
 	return hash === hashVerify;
 }
 
-/*  app.all("/api", function (req, res) {
-	app.locals.db
-		.collection('users')
-		.find({ email: req.body.email })
-		.toArray(function (err, data) {
-			if (err !== null) {
-				res.send({ mensaje: 'Ha habido un error al conectar la base de datos', contenido: data, err: true });
-			} else {
-				if (data.length > 0) {
-					console.log(data.length)
-					if (validoPass) {
-						res.send({ mensaje: 'Logueado correctamente', contenido: data, err: false, login: true });
-					} else {
-						res.send({ mensaje: 'Contraseña incorrecta', contenido: data, err: true, login: false });
-					}
-				} else {
-					res.send({ mensaje: 'El usuario no existe', err: false, login: false });
-				}
-			}
-		});
-}); */

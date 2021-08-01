@@ -19,7 +19,7 @@ function register(){
       password: password,
     },
     withCredentials: true,
-    url: "http://localhost:3001/registro",
+    url:  "http://localhost:3001/registro",
   }).then((res) => {
     return (
     console.log(res),
@@ -64,10 +64,10 @@ function register(){
     );
   }
 
-return (<Container>
+return (<Container className="Card-container">
     <Row className="justify-content-md-center">
     <Col xs lg="6">
-        <h1>Crea tu cuenta fácilmente</h1>
+        <h1 className="font-wheight">Crea tu cuenta fácilmente</h1>
         <p>Regístrate en nuestra web y accede a cientos de descuentos y mucho más</p>
         <Link to="/login">
           <p>Iniciar sesión</p>

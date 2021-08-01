@@ -1,9 +1,19 @@
+.full-app{
+	font-family:sans-serif;
+	margin-right: auto;
+	margin-left: auto;
+}
+.font-wheight {
+	font-family:fantasy;
+}
 .footer{
   margin-top: 20px;
   background-color: #282c34;
   color: hsl(0, 0%, 100%);
   list-style-type: none;
   text-decoration: none;
+  text-align: center;
+  padding-bottom: 3rem;
 }
 .footer ul {text-decoration: none;
   list-style-type: none;
@@ -17,6 +27,7 @@
 }
 footer img {
   justify-content: center;
+  
 }
 .jumbo{
   background-image: url('../src/assets/jumbo.jpg');
@@ -30,4 +41,78 @@ footer img {
 .carousel-img{
   position: absolute;
   align-items: center;
+}
+.MainCont{
+	border: solid 1px black;
+	margin: auto;
+	padding-top: 10px;
+}
+
+/* ------------------CSS PARA LA CREDIT CARD----------------------- */
+.FormGroup {
+	margin: 0 15px 20px;
+	padding: 0;
+	border-style: none;
+	background-color: #00acff;
+	will-change: opacity, transform;
+	box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+	border-radius: 4px;
+}
+
+.FormRow {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	margin-left: 15px;
+	border-top: 1px solid #819efc;
+}
+
+.StripeElement--webkit-autofill {
+	background: transparent !important;
+}
+
+.StripeElement {
+	width: 100%;
+	padding: 11px 15px 11px 0;
+}
+.buy-button {
+	display: block;
+	font-size: 1rem;
+	width: 10rem;
+	height: 40px;
+	margin: 10px 15px 10px;
+	background-color: #00acff;
+	box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffb9f6;
+	border-radius: 4px;
+	color: #fff;
+	font-weight: 2rem;
+	cursor: pointer;
+	transition: all 100ms ease-in-out;
+	will-change: transform, background-color, box-shadow;
+	border: none;
+} */
+
+button:active {
+	background-color: #d782d9;
+	box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #e298d8;
+	transform: scale(0.99);
+}
+.Card-container{
+	justify-content: center;
+	align-content: center;
+	background-color:#dfe2ec;
+	margin-top: 1rem;
+	padding: 20px;
+	width: 95%;
+}
+.payment-cards{
+	margin: 1rem;
+	justify-content:end;
+	padding: auto;
+}
+.products-cards {
+	margin: 1rem;
+	align-content: center;
+	padding: auto;
 }

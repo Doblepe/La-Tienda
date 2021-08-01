@@ -12,4 +12,6 @@ import LandingComp from "./LandingComp";
 import CartComp from './cartComp'
 import NavBarLogged from "./Nav-bar-logged";
 
-export {CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp,FemaleCollectionComp, MaleCollectionComp, KidCollectionComp,LandingComp, CartComp, NavBarLogged}
+
+
+export { CarouselComp, NavBarComp, LoginComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp, LandingComp, CartComp, NavBarLogged }
