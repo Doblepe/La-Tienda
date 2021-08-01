@@ -1,6 +1,6 @@
 import {Container, Row, Col, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import logo from '../assets/IMG_8178-min.jpg'
+import logo from '../assets/LOGO.jpg'
 function FooterComp(){
 
     return(

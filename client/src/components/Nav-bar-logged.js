@@ -1,5 +1,5 @@
 import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
-import logo from '../assets/IMG_8178-min.jpg'
+import logo from '../assets/LOGO.jpg'
 
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';

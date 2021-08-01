@@ -84,7 +84,7 @@ function PaymentForm({ cart }) {
             try {
                 const { id } = paymentMethod
                 const response = await axios.post("http://localhost:4000/payment", {
-                    amount: 12000,
+                    amount: 13000,
                     id
                 })
 
