@@ -1,16 +1,10 @@
 {
   "name": "full-stack-project",
   "version": "1.0.0",
-  "description": "Este trabajo es el proyecto final del BBK Bootcamp. \r Consiste en un desarrollo full-stack donde aplico todos los conocimientos aprendidos durante el curso.\r La idea es desarrollar un Ecomerce conectado a una base de datos remota (Mongo Atlas) y que además cuente con un registro de usuarios (Passport) y una pasarela de pago (Stripe).\r La parte de cliente está desarrollada con REACT y apoyada en la librería de REACt BOOTSTRAP y el back lo he hecho utilizando Node.JS y Express.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "server": "nodemon server.js",
-    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
