@@ -25,7 +25,7 @@ function loadingAcc(){
       password: password,
     },
     withCredentials: true,
-    url:`http://localhost:3001/login`,
+    url:`https://latienda-back.herokuapp.com/login`,
   }).then((res) => {
     return (
     console.log(res),
@@ -39,7 +39,7 @@ const logout = () => {
   Axios({
     method: "POST",
     withCredentials: true,
-    url: "http://localhost:3001/logout",
+    url: "https://latienda-back.herokuapp.com/logout",
   }).then((res) => {
     return (
     console.log(res), 

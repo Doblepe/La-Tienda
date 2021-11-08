@@ -63,7 +63,7 @@ function ContactComp(){
 
       // ------------ SEND INFO MSG ------------
       function sendInfo(){
-            fetch( 'http://localhost:3001/contact/info', {
+            fetch( 'https://latienda-back.herokuapp.com/contact/info', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

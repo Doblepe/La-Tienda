@@ -19,7 +19,7 @@ function register(){
       password: password,
     },
     withCredentials: true,
-    url:  "http://localhost:3001/registro",
+    url:  "https://latienda-back.herokuapp.com/registro",
   }).then((res) => {
     return (
     console.log(res),
