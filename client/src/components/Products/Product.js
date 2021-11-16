@@ -1,6 +1,6 @@
 import {Card,  Button, Alert} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {addToCart} from '../redux/shopping/shopping-actions'
+import {addToCart} from '../../redux/shopping/shopping-actions'
 import {useState} from 'react'
 
 function Product({productData, addToCart}){

@@ -1,8 +1,8 @@
 import { Jumbotron, Button, Container, Row, Col, Card, CardGroup } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import maleCard from "../assets/male-card.jpg"
-import femaleCard from "../assets/female-card.jpg"
-import kidCard from "../assets/kid-card.jpg"
+import maleCard from "../../assets/male-card.jpg"
+import femaleCard from "../../assets/female-card.jpg"
+import kidCard from "../../assets/kid-card.jpg"
 
 
 function LandingComp() {

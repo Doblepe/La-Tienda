@@ -96,7 +96,7 @@ function PaymentForm({ cart }) {
             } catch (error) {
                 setFeedback("Error", error);
                 setTimeout(() => { setFeedback({ empty: true }) }, 3000)
-                
+
             }
         } else {
             setFeedback(error.message);
@@ -105,7 +105,7 @@ function PaymentForm({ cart }) {
     }
     return (
         <Container fluid className="Card-container">
-            
+
             {!success ?
                 <>
                     <h2 className="font-wheight">Estás a punto de finalizar tu compra, asegura los detalles:</h2>
@@ -113,13 +113,13 @@ function PaymentForm({ cart }) {
                     <form onSubmit={handleSubmit}>
                         <Row>
                             <Col>
-                            <Col xs md={12}>
-                                <Row>
-                                    {cart.map(item => (
-                                        <PaymentItem key={item.id} itemData={item} />
-                                    ))}
-                                </Row>
-                            </Col>
+                                <Col xs md={12}>
+                                    <Row>
+                                        {cart.map(item => (
+                                            <PaymentItem key={item.id} itemData={item} />
+                                        ))}
+                                    </Row>
+                                </Col>
                             </Col>
                         </Row>
                         <hr></hr>

@@ -1,11 +1,21 @@
 import './App.css';
-import { LandingComp, NavBarLogged, LoginComp, NavBarComp, RegisterComp, ProductsComps, FooterComp, ContactComp, FemaleCollectionComp, MaleCollectionComp, KidCollectionComp } from './components/index'
 import { BrowserRouter, Route } from 'react-router-dom'
-import CartComp from './components/cartComp';
-import "@mdi/font/css/materialdesignicons.min.css";
+import LandingComp from './components/HeroPage/LandingComp'
+import NavBarLogged from './components/HeroPage/Nav-bar-logged'
+import NavBarComp from './components/HeroPage/Nav-bar'
+import RegisterComp from './components/Register/RegisterComp'
+import LoginComp from './components/login/LoginComp';
+import CartComp from './components/Cart/cartComp';
+import ContactComp from './components/Contact/Contactcomp';
+import ProductsComps from './components/Products/ProductsComp'
+import FooterComp from './components/HeroPage/FooterComp';
+import FemaleCollectionComp from './components/Products/FemaleCollectionComp'
+import MaleCollectionComp from './components/Products/MaleCollectionComp'
+import KidCollectionComp from './components/Products/KidCollectionComp'
 import { useState } from 'react';
-import StripeContainer from './components/StripeContainer';
-require('dotenv').config()
+import StripeContainer from './components/Cart/StripeContainer';
+import "@mdi/font/css/materialdesignicons.min.css";
+
 
 
 function App() {

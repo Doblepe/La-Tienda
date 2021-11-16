@@ -14,14 +14,7 @@ const cors = require('cors')
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-// Accessing the path module
-const path = require("path");
-// Step 1:
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-// Step 2:
-app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+
 
 
 app.use(express.urlencoded({ extended: false }));
@@ -88,7 +81,7 @@ passport.use(
 				if (!user) {
 					return done(null, false);
 				}
-				if (!validoPass(password, user.password.hash, user.password.salt)) {
+				if (!checkPass(password, user.password.hash, user.password.salt)) {
 					return done(null, false);
 				}
 				return done(null, user);
@@ -136,7 +129,7 @@ app.post("/registro", function (req, res) {
 		.find({ email: req.body.email })
 		.toArray(function (err, user) {
 			if (user.length === 0) {
-				const saltYHash = creaPass(req.body.password);
+				const saltYHash = createPass(req.body.password);
 				app.locals.db.collection("users").insertOne(
 					{
 						nombre: req.body.nombre,
@@ -209,7 +202,7 @@ app.listen(port, function (err) {
  * @returns -> Objeto con las claves salt y hash resultantes.
  */
 
-function creaPass(password) {
+function createPass(password) {
 	var salt = crypto.randomBytes(32).toString("hex");
 	var genHash = crypto
 		.pbkdf2Sync(password, salt, 10000, 64, "sha512")
@@ -221,6 +214,7 @@ function creaPass(password) {
 	};
 }
 
+
 /**
  *
  * @param {*} password -> Recibe el password a comprobar
@@ -229,10 +223,10 @@ function creaPass(password) {
  * @returns -> Booleano ( true si es el correcto, false en caso contrario)
  */
 
-function validoPass(password, hash, salt) {
+
+ function checkPass(password, hash, salt) {
 	var hashVerify = crypto
 		.pbkdf2Sync(password, salt, 10000, 64, "sha512")
 		.toString("hex");
 	return hash === hashVerify;
 }
-

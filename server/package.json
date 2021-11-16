@@ -22,9 +22,14 @@
     "express-session": "^1.17.2",
     "local": "^0.3.3",
     "mongodb": "^3.6.9",
+    "nodemon": "^2.0.15",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "session": "^0.1.0",
     "stripe": "^8.165.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
+

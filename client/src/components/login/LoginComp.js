@@ -2,13 +2,13 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import Axios from "axios";
-import ContactComp from './Contactcomp';
+import ContactComp from '../Contact/Contactcomp';
 
 
 function LoginComp (props){
   const [email, setEmail] = useState('')
   const [password, setPassword]= useState('')
-  const baseURL = process.env.REACT_APP_API
+ 
  function showPass() {
   var tipo = document.getElementById('password');
   if (tipo.type === 'password') {
@@ -17,7 +17,7 @@ function LoginComp (props){
     tipo.type = 'password';
   }}
 function loadingAcc(){
-  console.log(`${baseURL}/login`)
+  console.log(`/login`)
   Axios({
     method: "POST",
     data: {
@@ -25,7 +25,7 @@ function loadingAcc(){
       password: password,
     },
     withCredentials: true,
-    url:`https://latienda-back.herokuapp.com/login`,
+    url:"http://localhost:3001/login",
   }).then((res) => {
     return (
     console.log(res),
@@ -39,10 +39,11 @@ const logout = () => {
   Axios({
     method: "POST",
     withCredentials: true,
-    url: "https://latienda-back.herokuapp.com/logout",
+    url: "http://localhost:3001/login",
   }).then((res) => {
     return (
     console.log(res), 
+    window.alert('Sesión abandonada'),
     props.setLogin(false),
     props.setUser(''))
 })

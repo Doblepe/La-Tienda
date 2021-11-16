@@ -2,7 +2,6 @@ import { Row, Container, Col } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import Product from './Product';
 
-//https://www.youtube.com/watch?v=MNs_7avLIJ4&ab_channel=TheFullStackJunkie EN EL MIN 28:18
 
 const mapStateToProps = state => {
   return {
