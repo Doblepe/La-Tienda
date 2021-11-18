@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import LandingComp from './components/HeroPage/LandingComp'
 import NavBarLogged from './components/HeroPage/Nav-bar-logged'
 import NavBarComp from './components/HeroPage/Nav-bar'
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="full-app">
-      <BrowserRouter>
+      <Router>
         {login ? <NavBarLogged /> : <NavBarComp />}
         <Route exact path="/">
           <LandingComp />
@@ -58,7 +58,7 @@ function App() {
           <StripeContainer />
         </Route>
         <FooterComp />
-      </BrowserRouter>
+      </Router>
     </div>);
 }
 
